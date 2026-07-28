@@ -21,7 +21,7 @@ use crate::app::style::scrollable::RowContainerStyle;
 use crate::app::style::search::input::SearchInputStyles;
 use crate::app::style::search::SearchContainerStyles;
 use crate::app::style::Theme;
-use padding::OnagrePadding;
+use padding::D77Padding;
 
 #[derive(Parser)]
 #[grammar = "config/grammar.pest"]
@@ -37,7 +37,7 @@ pub fn parse_file<P: AsRef<Path>>(path: P) -> Result<Theme, ConfigError> {
 
     if let Some(pair) = pairs.into_inner().next() {
         match pair.as_rule() {
-            Rule::onagre_style => {
+            Rule::d77_launcher_style => {
                 return Theme::try_from(pair);
             }
             _ => unreachable!(),
@@ -85,7 +85,7 @@ impl TryFrom<Pair<'_, Rule>> for Theme {
                 Rule::border_width => theme.border_width = helpers::unwrap_attr_f32(pair)?,
                 Rule::border_radius => theme.border_radius = helpers::unwrap_attr_f32(pair)?,
                 Rule::padding => {
-                    theme.padding = OnagrePadding::from(helpers::unwrap_attr_u16(pair)?)
+                    theme.padding = D77Padding::from(helpers::unwrap_attr_u16(pair)?)
                 }
                 Rule::padding_top => theme.padding.top = helpers::unwrap_attr_u16(pair)?,
                 Rule::padding_bottom => theme.padding.bottom = helpers::unwrap_attr_u16(pair)?,
@@ -119,7 +119,7 @@ impl ApplyConfig for AppContainerStyles {
                 Rule::border_width => self.border_width = helpers::unwrap_attr_f32(pair)?,
                 // Padding
                 Rule::padding => {
-                    self.padding = OnagrePadding::from(helpers::unwrap_attr_u16(pair)?)
+                    self.padding = D77Padding::from(helpers::unwrap_attr_u16(pair)?)
                 }
                 Rule::padding_top => self.padding.top = helpers::unwrap_attr_u16(pair)?,
                 Rule::padding_bottom => self.padding.bottom = helpers::unwrap_attr_u16(pair)?,
@@ -195,7 +195,7 @@ impl ApplyConfig for SearchContainerStyles {
 
                 // Layout
                 Rule::padding => {
-                    self.padding = OnagrePadding::from(helpers::unwrap_attr_u16(pair)?)
+                    self.padding = D77Padding::from(helpers::unwrap_attr_u16(pair)?)
                 }
                 Rule::padding_top => self.padding.top = helpers::unwrap_attr_u16(pair)?,
                 Rule::padding_bottom => self.padding.bottom = helpers::unwrap_attr_u16(pair)?,
@@ -244,7 +244,7 @@ impl ApplyConfig for SearchInputStyles {
 
                 // Layout
                 Rule::padding => {
-                    self.padding = OnagrePadding::from(helpers::unwrap_attr_u16(pair)?)
+                    self.padding = D77Padding::from(helpers::unwrap_attr_u16(pair)?)
                 }
                 Rule::padding_top => self.padding.top = helpers::unwrap_attr_u16(pair)?,
                 Rule::padding_bottom => self.padding.bottom = helpers::unwrap_attr_u16(pair)?,
@@ -281,7 +281,7 @@ impl ApplyConfig for RowContainerStyle {
 
                 // Padding
                 Rule::padding => {
-                    self.padding = OnagrePadding::from(helpers::unwrap_attr_u16(pair)?)
+                    self.padding = D77Padding::from(helpers::unwrap_attr_u16(pair)?)
                 }
                 Rule::padding_top => self.padding.top = helpers::unwrap_attr_u16(pair)?,
                 Rule::padding_bottom => self.padding.bottom = helpers::unwrap_attr_u16(pair)?,
@@ -321,7 +321,7 @@ impl ApplyConfig for RowStyles {
 
                 // Iced Layout
                 Rule::padding => {
-                    self.padding = OnagrePadding::from(helpers::unwrap_attr_u16(pair)?)
+                    self.padding = D77Padding::from(helpers::unwrap_attr_u16(pair)?)
                 }
                 Rule::padding_top => self.padding.top = helpers::unwrap_attr_u16(pair)?,
                 Rule::padding_bottom => self.padding.bottom = helpers::unwrap_attr_u16(pair)?,
@@ -364,7 +364,7 @@ impl ApplyConfig for GenericContainerStyle {
                 Rule::color => self.color = helpers::unwrap_hex_color(pair)?,
                 // Iced Layout
                 Rule::padding => {
-                    self.padding = OnagrePadding::from(helpers::unwrap_attr_u16(pair)?)
+                    self.padding = D77Padding::from(helpers::unwrap_attr_u16(pair)?)
                 }
                 Rule::padding_top => self.padding.top = helpers::unwrap_attr_u16(pair)?,
                 Rule::padding_bottom => self.padding.bottom = helpers::unwrap_attr_u16(pair)?,
@@ -396,7 +396,7 @@ impl ApplyConfig for IconStyle {
 
                 // Iced Layout
                 Rule::padding => {
-                    self.padding = OnagrePadding::from(helpers::unwrap_attr_u16(pair)?)
+                    self.padding = D77Padding::from(helpers::unwrap_attr_u16(pair)?)
                 }
                 Rule::padding_top => self.padding.top = helpers::unwrap_attr_u16(pair)?,
                 Rule::padding_bottom => self.padding.bottom = helpers::unwrap_attr_u16(pair)?,

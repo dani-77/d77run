@@ -110,8 +110,8 @@ scrollbar_margin    = { MARGIN           ~ px_value      ~ SEMICOLON ~ NEWLINE* 
 
 
 // Selectors
-onagre_style = {
-    ".onagre"
+d77_launcher_style = {
+    ".d77-launcher"
     ~ NEWLINE*
     ~ DELIMITER_START
     ~ NEWLINE*
@@ -279,4 +279,4 @@ scroller =  {
     ~ NEWLINE*
 }
 
-stylesheet = { SOI ~ NEWLINE* ~ onagre_style ~ NEWLINE* ~ EOI }
+stylesheet = { SOI ~ NEWLINE* ~ d77_launcher_style ~ NEWLINE* ~ EOI }

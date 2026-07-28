@@ -3,14 +3,14 @@ use iced::Color;
 use std::{fmt::Display, num::ParseIntError};
 
 #[derive(Debug, Clone, PartialEq, Copy)]
-pub struct OnagreColor {
+pub struct D77Color {
     color: Color,
 }
 
-impl Eq for OnagreColor {}
+impl Eq for D77Color {}
 
-impl OnagreColor {
-    pub(crate) const DEFAULT_BACKGROUND: OnagreColor = OnagreColor {
+impl D77Color {
+    pub(crate) const DEFAULT_BACKGROUND: D77Color = D77Color {
         color: Color {
             r: 0.08235294,
             g: 0.08235294,
@@ -19,7 +19,7 @@ impl OnagreColor {
         },
     };
 
-    pub(crate) const DEFAULT_SCROLL: OnagreColor = OnagreColor {
+    pub(crate) const DEFAULT_SCROLL: D77Color = D77Color {
         color: Color {
             r: 1.0,
             g: 1.0,
@@ -28,7 +28,7 @@ impl OnagreColor {
         },
     };
 
-    pub(crate) const DEFAULT_SCROLLER: OnagreColor = OnagreColor {
+    pub(crate) const DEFAULT_SCROLLER: D77Color = D77Color {
         color: Color {
             r: 1.0,
             g: 1.0,
@@ -37,7 +37,7 @@ impl OnagreColor {
         },
     };
 
-    pub(crate) const DEFAULT_BORDER: OnagreColor = OnagreColor {
+    pub(crate) const DEFAULT_BORDER: D77Color = D77Color {
         color: Color {
             r: 0.3647059,
             g: 0.36862746,
@@ -46,7 +46,7 @@ impl OnagreColor {
         },
     };
 
-    pub(crate) const DEFAULT_TEXT: OnagreColor = OnagreColor {
+    pub(crate) const DEFAULT_TEXT: D77Color = D77Color {
         color: Color {
             r: 0.25490198,
             g: 0.25490198,
@@ -55,15 +55,15 @@ impl OnagreColor {
         },
     };
 
-    pub(crate) const TRANSPARENT: OnagreColor = OnagreColor {
+    pub(crate) const TRANSPARENT: D77Color = D77Color {
         color: Color::TRANSPARENT,
     };
 
-    pub(crate) const WHITE: OnagreColor = OnagreColor {
+    pub(crate) const WHITE: D77Color = D77Color {
         color: Color::WHITE,
     };
 
-    pub(crate) const RED: OnagreColor = OnagreColor {
+    pub(crate) const RED: D77Color = D77Color {
         color: Color {
             r: 1.0,
             g: 0.0,
@@ -74,34 +74,34 @@ impl OnagreColor {
 
     pub(crate) fn from(hex_color: &str) -> Result<Self, ConfigError> {
         let r = if let Some(red) = hex_color.get(1..3) {
-            OnagreColor::f32_from_str_hex(red)
+            D77Color::f32_from_str_hex(red)
                 .map_err(|_err| ConfigError::ParseColor(hex_color.to_string()))?
         } else {
             0.0
         };
 
         let g = if let Some(green) = hex_color.get(3..5) {
-            OnagreColor::f32_from_str_hex(green)
+            D77Color::f32_from_str_hex(green)
                 .map_err(|_err| ConfigError::ParseColor(hex_color.to_string()))?
         } else {
             0.0
         };
 
         let b = if let Some(blue) = hex_color.get(5..7) {
-            OnagreColor::f32_from_str_hex(blue)
+            D77Color::f32_from_str_hex(blue)
                 .map_err(|_err| ConfigError::ParseColor(hex_color.to_string()))?
         } else {
             0.0
         };
 
         let a = if let Some(opacity) = hex_color.get(7..9) {
-            OnagreColor::f32_from_str_hex(opacity)
+            D77Color::f32_from_str_hex(opacity)
                 .map_err(|_err| ConfigError::ParseColor(hex_color.to_string()))?
         } else {
             1.0
         };
 
-        Ok(OnagreColor {
+        Ok(D77Color {
             color: Color { r, g, b, a },
         })
     }
@@ -111,7 +111,7 @@ impl OnagreColor {
     }
 }
 
-impl Display for OnagreColor {
+impl Display for D77Color {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let r = (self.color.r * 255.0) as u32;
         let g = (self.color.g * 255.0) as u32;
@@ -135,8 +135,8 @@ fn to_lower_gex_with_leading_zero(value: u32) -> String {
     }
 }
 
-impl From<OnagreColor> for Color {
-    fn from(color: OnagreColor) -> Self {
+impl From<D77Color> for Color {
+    fn from(color: D77Color) -> Self {
         Color {
             r: color.color.r,
             g: color.color.g,
@@ -148,17 +148,17 @@ impl From<OnagreColor> for Color {
 
 #[cfg(test)]
 mod test {
-    use crate::config::color::OnagreColor;
+    use crate::config::color::D77Color;
     use iced_core::Color;
 
     #[test]
     fn should_get_color_from_str() {
         let hex_color = "#ff00ff";
 
-        let color = OnagreColor::from(hex_color);
+        let color = D77Color::from(hex_color);
 
         assert_eq!(
-            OnagreColor {
+            D77Color {
                 color: Color {
                     r: 1.0,
                     g: 0.0,
@@ -174,10 +174,10 @@ mod test {
     fn should_get_color_from_with_opacity() {
         let hex_color = "#CCFF00CC";
 
-        let color = OnagreColor::from(hex_color);
+        let color = D77Color::from(hex_color);
 
         assert_eq!(
-            OnagreColor {
+            D77Color {
                 color: Color {
                     r: 0.8,
                     g: 1.0,
@@ -193,10 +193,10 @@ mod test {
     fn should_get_red_value_and_default() {
         let hex_color = "#CC";
 
-        let color = OnagreColor::from(hex_color);
+        let color = D77Color::from(hex_color);
 
         assert_eq!(
-            OnagreColor {
+            D77Color {
                 color: Color {
                     r: 0.8,
                     g: 0.0,
@@ -212,7 +212,7 @@ mod test {
     fn parse_error() {
         let hex_color = "#II";
 
-        let color = OnagreColor::from(hex_color);
+        let color = D77Color::from(hex_color);
 
         assert!(color.is_err());
     }

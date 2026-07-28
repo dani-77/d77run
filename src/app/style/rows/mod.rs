@@ -1,6 +1,6 @@
 use crate::app::style::Scale;
-use crate::config::color::OnagreColor;
-use crate::config::padding::OnagrePadding;
+use crate::config::color::D77Color;
+use crate::config::padding::D77Padding;
 use generic::GenericContainerStyle;
 use iced::alignment::{Horizontal, Vertical};
 use iced::Length;
@@ -16,7 +16,7 @@ pub mod icon;
 #[derive(Debug, PartialEq, Clone)]
 pub struct RowStyles {
     // Layout
-    pub padding: OnagrePadding,
+    pub padding: D77Padding,
     pub width: Length,
     pub height: Length,
     pub spacing: u16,
@@ -24,11 +24,11 @@ pub struct RowStyles {
     pub align_y: Vertical,
 
     // Style
-    pub background: OnagreColor,
+    pub background: D77Color,
     pub border_radius: f32,
     pub border_width: f32,
-    pub color: OnagreColor,
-    pub border_color: OnagreColor,
+    pub color: D77Color,
+    pub border_color: D77Color,
     pub hide_description: bool,
     pub hide_category_icon: bool,
 
@@ -74,14 +74,14 @@ impl Default for RowStyles {
         RowStyles {
             width: Length::Fill,
             height: Length::Shrink,
-            background: OnagreColor::DEFAULT_BACKGROUND,
-            color: OnagreColor::DEFAULT_TEXT,
+            background: D77Color::DEFAULT_BACKGROUND,
+            color: D77Color::DEFAULT_TEXT,
             border_radius: 0.0,
             border_width: 0.0,
-            padding: OnagrePadding::from(5),
+            padding: D77Padding::from(5),
             align_x: Horizontal::Right,
             align_y: Vertical::Bottom,
-            border_color: OnagreColor::RED,
+            border_color: D77Color::RED,
             hide_description: false,
             hide_category_icon: false,
             title: GenericContainerStyle::default(),
@@ -96,13 +96,13 @@ impl Default for RowStyles {
 impl RowStyles {
     pub fn default_selected() -> Self {
         Self {
-            color: OnagreColor::WHITE,
+            color: D77Color::WHITE,
             title: GenericContainerStyle {
-                color: OnagreColor::WHITE,
+                color: D77Color::WHITE,
                 ..Default::default()
             },
             description: GenericContainerStyle {
-                color: OnagreColor::WHITE,
+                color: D77Color::WHITE,
                 ..GenericContainerStyle::description_default()
             },
             ..Default::default()

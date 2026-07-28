@@ -1,17 +1,17 @@
 [package]
-name = "onagre"
+name = "d77-launcher"
 version = "1.1.1"
-authors = ["Paul Delafosse <paul.delafosse@protonmail.com>"]
+authors = ["Paul Delafosse <paul.delafosse@protonmail.com>", "dani-77"]
 edition = "2018"
 resolver = "2"
 readme = "README.md"
 license = "MIT"
-repository = "https://github.com/oknozor/onagre"
+repository = "https://github.com/dani-77/d77-launcher"
 categories = ["gui", "development-tools"]
-keywords = ["launcher", "app-launcher", "pop-launcher", "onagre"]
+keywords = ["launcher", "app-launcher", "pop-launcher", "d77-launcher"]
 description = """
-A general purpose application launcher for X and wayland  inspired by rofi/wofi and alfred, build with iced
-and pop-launcher.
+A general purpose application launcher for X and wayland inspired by rofi/wofi and alfred, build with iced
+and pop-launcher. d77-launcher is a personal fork of onagre with gmrun-style ergonomics.
 """
 
 [profile.release]

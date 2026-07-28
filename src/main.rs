@@ -20,7 +20,7 @@ pub static THEME_PATH: Lazy<Mutex<PathBuf>> = Lazy::new(|| {
     Mutex::new(
         dirs::config_dir()
             .ok_or_else(|| anyhow!("Theme config not found"))
-            .map(|path| path.join("onagre").join("theme.scss"))
+            .map(|path| path.join("d77-launcher").join("theme.scss"))
             .unwrap(),
     )
 });
@@ -30,16 +30,16 @@ static THEME_SCALE: OnceCell<f32> = OnceCell::new();
 pub static THEME: Lazy<Theme> = Lazy::new(Theme::load);
 
 #[derive(Parser)]
-#[command(name = "onagre", author = "Paul D. <paul.delafosse@protonmail.com>")]
+#[command(name = "d77-launcher", author = "Paul D. <paul.delafosse@protonmail.com>")]
 struct Cli {
     #[arg(
         long = "theme",
         short = 't',
-        help = "Path to an alternate onagre theme file"
+        help = "Path to an alternate d77-launcher theme file"
     )]
     theme: Option<PathBuf>,
 
-    #[arg(long = "scale", short = 's', help = "Change the scale of onagre theme")]
+    #[arg(long = "scale", short = 's', help = "Change the scale of d77-launcher theme")]
     scale: Option<f32>,
 
     #[arg(long = "mode", short = 'm', help = "The mode parameter as a string")]
@@ -49,15 +49,15 @@ struct Cli {
 pub fn main() -> iced::Result {
     tracing_subscriber::registry()
         .with(tracing_subscriber::EnvFilter::new(
-            std::env::var("RUST_LOG").unwrap_or_else(|_| "onagre=info".into()),
+            std::env::var("RUST_LOG").unwrap_or_else(|_| "d77_launcher=info".into()),
         ))
         .with(tracing_subscriber::fmt::layer())
         .init();
 
-    info!("Starting onagre");
+    info!("Starting d77-launcher");
     let cli = Cli::parse();
 
-    // User defined theme config, $XDG_CONFIG_HOME/onagre/theme.toml otherwise
+    // User defined theme config, $XDG_CONFIG_HOME/d77-launcher/theme.toml otherwise
     if let Some(theme_path) = cli.theme {
         let path = theme_path.canonicalize();
         if let Ok(path) = path {

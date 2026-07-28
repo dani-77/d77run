@@ -3,8 +3,8 @@ use crate::app::style::rows::generic::GenericContainerStyle;
 use crate::app::style::scrollable::scroller::ScrollerStyles;
 use crate::app::style::search::input::SearchInputStyles;
 use crate::app::style::search::SearchContainerStyles;
-use crate::config::color::OnagreColor;
-use crate::config::padding::OnagrePadding;
+use crate::config::color::D77Color;
+use crate::config::padding::D77Padding;
 use crate::THEME_PATH;
 use crate::THEME_SCALE;
 use iced::widget::container::Appearance;
@@ -55,12 +55,12 @@ pub struct Theme {
     pub font_size: u16,
     pub icon_theme: Option<String>,
     pub icon_size: u16,
-    pub padding: OnagrePadding,
+    pub padding: D77Padding,
 
     // Style
-    pub background: OnagreColor,
-    pub color: OnagreColor,
-    pub border_color: OnagreColor,
+    pub background: D77Color,
+    pub color: D77Color,
+    pub border_color: D77Color,
     pub border_radius: f32,
     pub border_width: f32,
 
@@ -133,12 +133,12 @@ impl Default for Theme {
             // TODO: default icon theme ?
             icon_theme: Some("Papirus".to_string()),
             icon_size: 24,
-            background: OnagreColor::DEFAULT_BACKGROUND,
-            color: OnagreColor::DEFAULT_TEXT,
-            border_color: OnagreColor::TRANSPARENT,
+            background: D77Color::DEFAULT_BACKGROUND,
+            color: D77Color::DEFAULT_TEXT,
+            border_color: D77Color::TRANSPARENT,
             border_radius: 0.0,
             border_width: 0.0,
-            padding: OnagrePadding::ZERO,
+            padding: D77Padding::ZERO,
             app_container: AppContainerStyles::default(),
         }
     }

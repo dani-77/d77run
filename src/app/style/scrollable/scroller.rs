@@ -1,5 +1,5 @@
 use crate::app::style::Scale;
-use crate::config::color::OnagreColor;
+use crate::config::color::D77Color;
 use iced::widget::scrollable::Scrollbar;
 use iced::Background;
 use iced_core::border::Radius;
@@ -9,14 +9,14 @@ use iced_style::theme::Scrollable;
 
 #[derive(Debug, PartialEq)]
 pub struct ScrollerStyles {
-    pub background: OnagreColor,
-    pub border_color: OnagreColor,
+    pub background: D77Color,
+    pub border_color: D77Color,
     pub border_radius: f32,
     pub border_width: f32,
-    pub scroller_color: OnagreColor,
+    pub scroller_color: D77Color,
     pub scroller_border_radius: f32,
     pub scroller_border_width: f32,
-    pub scroller_border_color: OnagreColor,
+    pub scroller_border_color: D77Color,
     pub scrollbar_margin: u16,
     pub scrollbar_width: u16,
     pub scroller_width: u16,
@@ -38,14 +38,14 @@ impl Eq for ScrollerStyles {}
 impl Default for ScrollerStyles {
     fn default() -> Self {
         ScrollerStyles {
-            background: OnagreColor::DEFAULT_SCROLL,
+            background: D77Color::DEFAULT_SCROLL,
             border_radius: 0.3,
             border_width: 0.0,
-            border_color: OnagreColor::TRANSPARENT,
-            scroller_color: OnagreColor::DEFAULT_SCROLLER,
+            border_color: D77Color::TRANSPARENT,
+            scroller_color: D77Color::DEFAULT_SCROLLER,
             scroller_border_radius: 3.0,
             scroller_border_width: 0.0,
-            scroller_border_color: OnagreColor::DEFAULT_BORDER,
+            scroller_border_color: D77Color::DEFAULT_BORDER,
             scrollbar_margin: 0,
             scrollbar_width: 4,
             scroller_width: 6,

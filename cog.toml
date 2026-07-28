@@ -38,10 +38,11 @@ cargo clippy
 path = "CHANGELOG.md"
 template = "remote"
 remote = "github.com"
-repository = "onagre"
-owner = "onagre-launcher"
+repository = "d77-launcher"
+owner = "dani-77"
 
 
 authors = [
     { signature = "Paul Delafosse", username = "oknozor" },
+    { signature = "dani-77", username = "dani-77" },
 ]

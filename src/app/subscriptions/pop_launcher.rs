@@ -29,7 +29,7 @@ async fn handle_stdout(stdout: ChildStdout, mut sender: Sender<Response>) {
     }
 }
 
-// Whenever a message is red from pop-launcher stderr, print it to onagre stderr
+// Whenever a message is red from pop-launcher stderr, print it to d77-launcher stderr
 async fn handle_stderr(stderr: ChildStderr) {
     let mut lines = BufReader::new(stderr).lines();
 

@@ -10,7 +10,7 @@ use onagre_launcher_toolkit::launcher::IconSource;
 use once_cell::sync::Lazy;
 use serde::{Deserialize, Serialize};
 
-use crate::config::color::OnagreColor;
+use crate::config::color::D77Color;
 use crate::THEME;
 
 // We use this only for symbolic svg icons which needs to be loaded with a color theme
@@ -32,7 +32,7 @@ const FALLBACK_ICON_PATH: &str = "dialog-question-symbolic.svg";
 
 // Build the fallback icon once for .row-selected and .row foreground colors
 // and cache the result.
-pub fn fallback_icon(color: &OnagreColor) -> Svg {
+pub fn fallback_icon(color: &D77Color) -> Svg {
     let hex_color = color.to_string();
     let mut cache = SYMBOLIC_ICON_CACHE.lock().unwrap();
     let path = Path::new(FALLBACK_ICON_PATH);
@@ -131,7 +131,7 @@ impl IconPath {
 
     // If we have a symbolic icon try to replace the foreground color with the current
     // one and cache the result, otherwise build the svg from icon path
-    pub fn to_svg(&self, color: &OnagreColor) -> Svg {
+    pub fn to_svg(&self, color: &D77Color) -> Svg {
         if self.symbolic {
             let mut icon_cache = SYMBOLIC_ICON_CACHE.lock().unwrap();
             let hex_color = color.to_string();

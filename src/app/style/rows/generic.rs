@@ -1,6 +1,6 @@
 use crate::app::style::Scale;
-use crate::config::color::OnagreColor;
-use crate::config::padding::OnagrePadding;
+use crate::config::color::D77Color;
+use crate::config::padding::D77Padding;
 use iced::alignment::{Horizontal, Vertical};
 use iced::Length;
 use iced_core::border::Radius;
@@ -10,15 +10,15 @@ use iced_style::container::{Appearance, StyleSheet};
 #[derive(Debug, PartialEq, Clone)]
 pub struct GenericContainerStyle {
     // Style
-    pub background: OnagreColor,
+    pub background: D77Color,
     pub border_radius: f32,
     pub border_width: f32,
-    pub color: OnagreColor,
-    pub border_color: OnagreColor,
+    pub color: D77Color,
+    pub border_color: D77Color,
 
     // Layout
     pub font_size: u16,
-    pub padding: OnagrePadding,
+    pub padding: D77Padding,
     pub align_x: Horizontal,
     pub align_y: Vertical,
     pub width: Length,
@@ -39,14 +39,14 @@ impl Scale for GenericContainerStyle {
 impl Default for GenericContainerStyle {
     fn default() -> Self {
         GenericContainerStyle {
-            background: OnagreColor::DEFAULT_BACKGROUND,
-            color: OnagreColor::DEFAULT_TEXT,
+            background: D77Color::DEFAULT_BACKGROUND,
+            color: D77Color::DEFAULT_TEXT,
             width: Length::Fill,
             height: Length::Shrink,
-            border_color: OnagreColor::RED,
+            border_color: D77Color::RED,
             border_radius: 0.0,
             border_width: 0.0,
-            padding: OnagrePadding::ZERO,
+            padding: D77Padding::ZERO,
             align_x: Horizontal::Left,
             align_y: Vertical::Center,
             font_size: 14,

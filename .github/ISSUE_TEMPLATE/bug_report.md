@@ -11,7 +11,7 @@ assignees: ''
 A clear and concise description of what the bug is.
 
 **Config** 
-If relevant, provide a copy of your onagre config/theme. 
+If relevant, provide a copy of your d77-launcher config/theme. 
 
 **To Reproduce**
 Steps to reproduce the behavior:

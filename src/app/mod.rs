@@ -36,7 +36,7 @@ pub mod style;
 pub mod subscriptions;
 
 pub fn run(pre_value: Option<String>) -> iced::Result {
-    debug!("Starting Onagre in debug mode");
+    debug!("Starting D77Launcher in debug mode");
 
     let default_font = THEME
         .font
@@ -44,8 +44,8 @@ pub fn run(pre_value: Option<String>) -> iced::Result {
         .map(|font| Font::with_name(font))
         .unwrap_or_default();
 
-    Onagre::run(Settings {
-        id: Some("onagre".to_string()),
+    D77Launcher::run(Settings {
+        id: Some("d77-launcher".to_string()),
         window: window::Settings {
             transparent: true,
             size: Size {
@@ -60,7 +60,7 @@ pub fn run(pre_value: Option<String>) -> iced::Result {
             icon: None,
             visible: true,
             platform_specific: PlatformSpecific {
-                application_id: "onagre".to_string(),
+                application_id: "d77-launcher".to_string(),
             },
             level: Default::default(),
             exit_on_close_request: false,
@@ -68,13 +68,13 @@ pub fn run(pre_value: Option<String>) -> iced::Result {
         default_text_size: Pixels::from(THEME.font_size),
         antialiasing: true,
         default_font,
-        flags: OnagreFlags { pre_value },
+        flags: D77LauncherFlags { pre_value },
         fonts: vec![],
     })
 }
 
 #[derive(Debug)]
-pub struct Onagre<'a> {
+pub struct D77Launcher<'a> {
     state: State<'a>,
     request_tx: Option<Sender<Request>>,
 }
@@ -92,39 +92,39 @@ pub enum Message {
 static INPUT_ID: Lazy<text_input::Id> = Lazy::new(text_input::Id::unique);
 static SCROLL_ID: Lazy<scrollable::Id> = Lazy::new(scrollable::Id::unique);
 
-pub struct OnagreFlags {
+pub struct D77LauncherFlags {
     pre_value: Option<String>,
 }
 
-impl Application for Onagre<'_> {
+impl Application for D77Launcher<'_> {
     type Executor = iced::executor::Default;
     type Message = Message;
     type Theme = Theme;
 
-    type Flags = OnagreFlags;
+    type Flags = D77LauncherFlags;
 
-    fn new(flags: OnagreFlags) -> (Self, Command<Self::Message>) {
-        let onagre;
+    fn new(flags: D77LauncherFlags) -> (Self, Command<Self::Message>) {
+        let launcher;
         if let Some(pre_value) = flags.pre_value {
-            onagre = Onagre {
+            launcher = D77Launcher {
                 state: State::with_mode(&pre_value),
                 request_tx: Default::default(),
             };
         } else {
-            onagre = Onagre {
+            launcher = D77Launcher {
                 state: Default::default(),
                 request_tx: Default::default(),
             };
         }
 
         (
-            onagre,
+            launcher,
             Command::perform(async {}, move |()| Message::Loading),
         )
     }
 
     fn title(&self) -> String {
-        "Onagre".to_string()
+        "d77-launcher".to_string()
     }
 
     fn update(&mut self, message: Self::Message) -> Command<Self::Message> {
@@ -301,14 +301,14 @@ impl Application for Onagre<'_> {
     }
 
     fn subscription(&self) -> Subscription<Self::Message> {
-        let keyboard_event = Onagre::keyboard_event();
+        let keyboard_event = D77Launcher::keyboard_event();
         let pop_launcher = PopLauncherSubscription::create().map(Message::SubscriptionResponse);
         let subs = vec![keyboard_event, pop_launcher];
         Subscription::batch(subs)
     }
 }
 
-impl Onagre<'_> {
+impl D77Launcher<'_> {
     /// Height (px) reserved for just the search input row, with no
     /// results showing. This is the window's resting height.
     const BASE_HEIGHT: f32 = 52.0;
@@ -321,7 +321,7 @@ impl Onagre<'_> {
     const MAX_VISIBLE_ROWS: usize = 8;
 
     /// gmrun-style dynamic sizing: instead of always reserving a big
-    /// fixed area for results (onagre's default), grow/shrink the
+    /// fixed area for results (launcher's default), grow/shrink the
     /// window itself based on how many entries are actually being
     /// shown right now. With zero results the window collapses back
     /// down to just the search bar.
@@ -436,7 +436,7 @@ impl Onagre<'_> {
     }
 
     /// gmrun-style fallback: run whatever the user typed as a raw shell
-    /// command (`sh -c "<input>"`), detached from onagre. Used when neither
+    /// command (`sh -c "<input>"`), detached from d77-launcher. Used when neither
     /// a desktop entry nor a plugin matched the input, so things like
     /// `dunst` or `udiskie -a` still launch instantly, exactly like they
     /// would in gmrun, even though they aren't registered .desktop apps.

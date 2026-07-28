@@ -8,8 +8,8 @@ use input::SearchInputStyles;
 
 use crate::app::style::rows::generic::GenericContainerStyle;
 use crate::app::style::Scale;
-use crate::config::color::OnagreColor;
-use crate::config::padding::OnagrePadding;
+use crate::config::color::D77Color;
+use crate::config::padding::D77Padding;
 
 pub mod hint;
 pub mod input;
@@ -17,14 +17,14 @@ pub mod input;
 #[derive(Debug, PartialEq)]
 pub struct SearchContainerStyles {
     // Style
-    pub background: OnagreColor,
-    pub color: OnagreColor,
-    pub border_color: OnagreColor,
+    pub background: D77Color,
+    pub color: D77Color,
+    pub border_color: D77Color,
     pub border_radius: f32,
     pub border_width: f32,
 
     // Layout
-    pub padding: OnagrePadding,
+    pub padding: D77Padding,
     pub spacing: u16,
     pub width: Length,
     pub height: Length,
@@ -70,16 +70,16 @@ impl StyleSheet for &SearchContainerStyles {
 impl Default for SearchContainerStyles {
     fn default() -> Self {
         Self {
-            background: OnagreColor::WHITE,
-            color: OnagreColor::DEFAULT_TEXT,
+            background: D77Color::WHITE,
+            color: D77Color::DEFAULT_TEXT,
             border_radius: 4.0,
             border_width: 0.0,
-            border_color: OnagreColor::TRANSPARENT,
+            border_color: D77Color::TRANSPARENT,
             align_x: Horizontal::Left,
             align_y: Vertical::Center,
             height: Length::FillPortion(1),
             width: Length::Fill,
-            padding: OnagrePadding::ZERO,
+            padding: D77Padding::ZERO,
             input: Default::default(),
             plugin_hint: None,
             spacing: 2,

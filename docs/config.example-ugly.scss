@@ -1,6 +1,6 @@
 // This is the 'ugly' theme used to show all the available configuration attributes, expect your eyes to bleed.
 // It will be replaced with real theme example as soon as the configuration format as been tested and approved.
-// Copy this file to $HOME/.config/onagre/theme.scss and start tweaking !  
+// Copy this file to $HOME/.config/d77-launcher/theme.scss and start tweaking !  
 //
 // ## Differences with SCSS
 //
@@ -34,7 +34,7 @@
 //
 // ## Default values
 //
-// You can see all the default value by running Onagre with no theme file.
+// You can see all the default value by running d77-launcher with no theme file.
 // Override only what you need to.
 //
 // ## Inheritance
@@ -42,7 +42,7 @@
 // The following properties will propagate to their child: background, color, icon-size, font-size.
 // For instance you can set the background color once like this :
 // ```css
-//  .onagre {
+//  .d77-launcher {
 //    background: #4ba417;
 // }
 //
@@ -56,7 +56,7 @@
 //
 // **Hidable elements** : `.plugin-hint`, `description`
 
-.onagre {
+.d77-launcher {
   --exit-unfocused: false;
   height: 300px;
   width: 400px;

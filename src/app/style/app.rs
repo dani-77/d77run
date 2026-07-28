@@ -2,8 +2,8 @@ use crate::app::style::scrollable::scroller::ScrollerStyles;
 use crate::app::style::scrollable::RowContainerStyle;
 use crate::app::style::search::SearchContainerStyles;
 use crate::app::style::Scale;
-use crate::config::color::OnagreColor;
-use crate::config::padding::OnagrePadding;
+use crate::config::color::D77Color;
+use crate::config::padding::D77Padding;
 use iced_core::border::Radius;
 use iced_core::{Background, Border};
 use iced_style::container::{Appearance, StyleSheet};
@@ -16,14 +16,14 @@ pub struct AppWrapperStyle;
 #[derive(Debug, PartialEq)]
 pub struct AppContainerStyles {
     // Style
-    pub background: OnagreColor,
-    pub color: OnagreColor,
-    pub border_color: OnagreColor,
+    pub background: D77Color,
+    pub color: D77Color,
+    pub border_color: D77Color,
     pub border_radius: f32,
     pub border_width: f32,
 
     // Layout
-    pub padding: OnagrePadding,
+    pub padding: D77Padding,
 
     // Children
     pub search: SearchContainerStyles,
@@ -63,12 +63,12 @@ impl StyleSheet for &AppContainerStyles {
 impl Default for AppContainerStyles {
     fn default() -> Self {
         Self {
-            background: OnagreColor::DEFAULT_BACKGROUND,
-            color: OnagreColor::DEFAULT_TEXT,
-            border_color: OnagreColor::RED,
+            background: D77Color::DEFAULT_BACKGROUND,
+            color: D77Color::DEFAULT_TEXT,
+            border_color: D77Color::RED,
             border_radius: 0.0,
             border_width: 0.0,
-            padding: OnagrePadding::from(20),
+            padding: D77Padding::from(20),
             search: Default::default(),
             rows: Default::default(),
             scrollable: Default::default(),

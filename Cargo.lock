@@ -1045,6 +1045,37 @@ dependencies = [
 ]
 
 [[package]]
+name = "d77-launcher"
+version = "1.1.1"
+dependencies = [
+ "anyhow",
+ "clap",
+ "dirs 5.0.1",
+ "freedesktop-icons",
+ "iced",
+ "iced_core",
+ "iced_runtime",
+ "iced_style",
+ "ico",
+ "onagre-launcher-toolkit",
+ "once_cell",
+ "pest",
+ "pest_derive",
+ "pretty_assertions",
+ "redb",
+ "regex",
+ "serde",
+ "serde_ini",
+ "serde_json",
+ "shell-words",
+ "speculoos",
+ "thiserror 1.0.69",
+ "tokio",
+ "tracing",
+ "tracing-subscriber",
+]
+
+[[package]]
 name = "darling"
 version = "0.20.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3234,37 +3265,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "62948e14d923ea95ea2c7c86c71013138b66525b86bdc08d2dcc262bdb497b87"
 dependencies = [
  "memchr",
-]
-
-[[package]]
-name = "onagre"
-version = "1.1.1"
-dependencies = [
- "anyhow",
- "clap",
- "dirs 5.0.1",
- "freedesktop-icons",
- "iced",
- "iced_core",
- "iced_runtime",
- "iced_style",
- "ico",
- "onagre-launcher-toolkit",
- "once_cell",
- "pest",
- "pest_derive",
- "pretty_assertions",
- "redb",
- "regex",
- "serde",
- "serde_ini",
- "serde_json",
- "shell-words",
- "speculoos",
- "thiserror 1.0.69",
- "tokio",
- "tracing",
- "tracing-subscriber",
 ]
 
 [[package]]

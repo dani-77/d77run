@@ -2,7 +2,7 @@
 
 ## tokyo-night-gmrun.scss
 
-A Tokyo Night theme aimed at making onagre feel closer to `gmrun`:
+A Tokyo Night theme aimed at making d77-launcher feel closer to `gmrun`:
 
 - Small window (`52px` tall, `640px` wide) — mostly just the search bar
 - Results list uses `--height: shrink` instead of the default
@@ -13,20 +13,16 @@ A Tokyo Night theme aimed at making onagre feel closer to `gmrun`:
 ### Install
 
 ```sh
-mkdir -p ~/.config/onagre
-cp docs/themes/tokyo-night-gmrun.scss ~/.config/onagre/theme.scss
+mkdir -p ~/.config/d77-launcher
+cp docs/themes/tokyo-night-gmrun.scss ~/.config/d77-launcher/theme.scss
 ```
 
 Edit `--font-family` to match whatever monospace/Nerd Font you have
 installed.
 
-### Known limitation
+### Window resizing
 
-Onagre's top-level window size is still fixed at startup (from
-`.onagre { height }` / `width`), it does not currently grow/shrink
-dynamically as results appear or disappear — `--height: shrink` only
-affects the internal `.rows` container's share of that fixed window,
-not the window itself. A true "no window at all until there's a match"
-behaviour like gmrun's would need a follow-up code change (e.g. issuing
-an `iced::window::resize` command from `on_input_changed` based on
-`current_entries_len()`).
+The top-level window (`.d77-launcher { height }` / `width`) now grows and
+shrinks live with the number of visible results (see
+`D77Launcher::resize_to_content` in `src/app/mod.rs`), so with zero results it
+collapses back down to just the search bar, gmrun-style.

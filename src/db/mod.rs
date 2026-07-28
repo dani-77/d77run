@@ -24,7 +24,7 @@ impl Default for Database {
     fn default() -> Self {
         let path = dirs::data_dir().expect("Cannot open data dir");
 
-        let path = path.join("onagre-db");
+        let path = path.join("d77-launcher-db");
         let path = path.as_path();
 
         debug!("Opening database {:?}", path);

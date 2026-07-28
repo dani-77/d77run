@@ -2,7 +2,7 @@
 
 ## Classes
 
-### `.onagre`
+### `.d77-launcher`
 
 - **Description:** Root class for styling the Onagre interface.
 - **Allowed Attributes:**
@@ -17,7 +17,7 @@
 
 ### `.container`
 
-- **Description:** Inner class within `.onagre`, defining styles for the main container.
+- **Description:** Inner class within `.d77-launcher`, defining styles for the main container.
 - **Allowed Attributes:**
     - [`background`](#background), [`color`](#color), [`border-color`](#border-color), [`border-width`](#border-width), 
       [`border-radius`](#border-radius), [`padding`](#padding), [`padding-left`](#padding-left), [`padding-top`](#padding-top), 

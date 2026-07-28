@@ -1,4 +1,4 @@
-use crate::config::color::OnagreColor;
+use crate::config::color::D77Color;
 use crate::config::error::ConfigError;
 use crate::config::Rule;
 use iced::alignment::{Horizontal, Vertical};
@@ -48,10 +48,10 @@ pub fn unwrap_attr_bool(pair: Pair<'_, Rule>) -> bool {
     value == "true"
 }
 
-pub fn unwrap_hex_color(pair: Pair<'_, Rule>) -> Result<OnagreColor, ConfigError> {
+pub fn unwrap_hex_color(pair: Pair<'_, Rule>) -> Result<D77Color, ConfigError> {
     let color = pair.into_inner().last().unwrap().as_str();
 
-    OnagreColor::from(color)
+    D77Color::from(color)
 }
 
 pub fn unwrap_x(pair: Pair<'_, Rule>) -> Result<Horizontal, ConfigError> {
@@ -101,7 +101,7 @@ pub fn unwrap_length(pair: Pair<'_, Rule>) -> Result<Length, ConfigError> {
 
 #[cfg(test)]
 mod test {
-    use crate::config::color::OnagreColor;
+    use crate::config::color::D77Color;
     use crate::config::helpers::{
         unwrap_attr_bool, unwrap_attr_f32, unwrap_attr_str, unwrap_attr_u16, unwrap_hex_color,
         unwrap_length, unwrap_x, unwrap_y,
@@ -199,7 +199,7 @@ mod test {
         asserting!("Should parse 'border-color' attribute")
             .that(&border_color)
             .is_ok()
-            .is_equal_to(OnagreColor::from("#ffffff").unwrap());
+            .is_equal_to(D77Color::from("#ffffff").unwrap());
     }
 
     #[test]
@@ -214,7 +214,7 @@ mod test {
         asserting!("Should parse 'color' attribute")
             .that(&color)
             .is_ok()
-            .is_equal_to(OnagreColor::from("#ffffff").unwrap());
+            .is_equal_to(D77Color::from("#ffffff").unwrap());
     }
 
     #[test]
@@ -229,7 +229,7 @@ mod test {
         asserting!("Should parse 'background' attribute")
             .that(&background)
             .is_ok()
-            .is_equal_to(OnagreColor::from("#ffffff").unwrap());
+            .is_equal_to(D77Color::from("#ffffff").unwrap());
     }
 
     #[test]

@@ -1,20 +1,20 @@
 use crate::app::style::Scale;
-use crate::config::color::OnagreColor;
-use crate::config::padding::OnagrePadding;
+use crate::config::color::D77Color;
+use crate::config::padding::D77Padding;
 use iced::alignment::{Horizontal, Vertical};
 use iced::Length;
 
 #[derive(Debug, PartialEq, Clone)]
 pub struct IconStyle {
     // Style
-    pub background: OnagreColor,
+    pub background: D77Color,
     pub border_radius: f32,
     pub border_width: f32,
-    pub color: OnagreColor,
-    pub border_color: OnagreColor,
+    pub color: D77Color,
+    pub border_color: D77Color,
 
     // Layout
-    pub padding: OnagrePadding,
+    pub padding: D77Padding,
     pub width: Length,
     pub height: Length,
     pub align_x: Horizontal,
@@ -39,14 +39,14 @@ impl Default for IconStyle {
     fn default() -> Self {
         IconStyle {
             // Style
-            background: OnagreColor::DEFAULT_BACKGROUND,
+            background: D77Color::DEFAULT_BACKGROUND,
             border_radius: 0.0,
             border_width: 0.0,
-            border_color: OnagreColor::TRANSPARENT,
-            color: OnagreColor::DEFAULT_TEXT,
+            border_color: D77Color::TRANSPARENT,
+            color: D77Color::DEFAULT_TEXT,
 
             // Layout
-            padding: OnagrePadding {
+            padding: D77Padding {
                 top: 3,
                 right: 6,
                 bottom: 3,
@@ -65,7 +65,7 @@ impl IconStyle {
     pub(crate) fn category_default() -> Self {
         Self {
             icon_size: 12,
-            padding: OnagrePadding {
+            padding: D77Padding {
                 top: 10,
                 right: 6,
                 bottom: 0,

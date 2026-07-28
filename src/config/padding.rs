@@ -3,18 +3,18 @@ use iced::Padding;
 use std::ops::Mul;
 
 #[derive(Debug, PartialEq, Clone)]
-pub struct OnagrePadding {
+pub struct D77Padding {
     pub top: u16,
     pub right: u16,
     pub bottom: u16,
     pub left: u16,
 }
 
-impl Mul<f32> for OnagrePadding {
-    type Output = OnagrePadding;
+impl Mul<f32> for D77Padding {
+    type Output = D77Padding;
 
     fn mul(self, rhs: f32) -> Self::Output {
-        OnagrePadding {
+        D77Padding {
             top: (self.top as f32 * rhs) as u16,
             right: (self.right as f32 * rhs) as u16,
             bottom: (self.bottom as f32 * rhs) as u16,
@@ -23,14 +23,14 @@ impl Mul<f32> for OnagrePadding {
     }
 }
 
-impl Scale for OnagrePadding {
+impl Scale for D77Padding {
     fn scale(self, scale: f32) -> Self {
         self * scale
     }
 }
 
-impl OnagrePadding {
-    pub const ZERO: OnagrePadding = OnagrePadding {
+impl D77Padding {
+    pub const ZERO: D77Padding = D77Padding {
         top: 0,
         right: 0,
         bottom: 0,
@@ -47,7 +47,7 @@ impl OnagrePadding {
     }
 }
 
-impl From<Padding> for OnagrePadding {
+impl From<Padding> for D77Padding {
     fn from(value: Padding) -> Self {
         Self {
             top: value.top as u16,
@@ -58,7 +58,7 @@ impl From<Padding> for OnagrePadding {
     }
 }
 
-impl From<u16> for OnagrePadding {
+impl From<u16> for D77Padding {
     fn from(value: u16) -> Self {
         Self {
             top: value,

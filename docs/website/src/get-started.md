@@ -93,7 +93,7 @@ but only a small subset of scss is supported along with some custom properties p
 ![not-adwaita.png](/screenshots/not-adwaita.png)
 
 ```scss
-.onagre {
+.d77-launcher {
   background: #d6d6d6;
   color: #000000;
   --icon-theme: "Papirus";

@@ -1,6 +1,6 @@
 use crate::app::style::Scale;
-use crate::config::color::OnagreColor;
-use crate::config::padding::OnagrePadding;
+use crate::config::color::D77Color;
+use crate::config::padding::D77Padding;
 use iced::alignment::{Horizontal, Vertical};
 use iced::Length;
 use iced_core::border::Radius;
@@ -10,13 +10,13 @@ use iced_style::text_input::{Appearance, StyleSheet};
 #[derive(Debug, PartialEq)]
 pub struct SearchInputStyles {
     // Style
-    pub background: OnagreColor,
+    pub background: D77Color,
     pub border_radius: f32,
     pub border_width: f32,
-    pub border_color: OnagreColor,
-    pub placeholder_color: OnagreColor,
-    pub value_color: OnagreColor,
-    pub selection_color: OnagreColor,
+    pub border_color: D77Color,
+    pub placeholder_color: D77Color,
+    pub value_color: D77Color,
+    pub selection_color: D77Color,
     pub text_width: Length,
 
     // Layout
@@ -25,7 +25,7 @@ pub struct SearchInputStyles {
     pub height: Length,
     pub align_x: Horizontal,
     pub align_y: Vertical,
-    pub padding: OnagrePadding,
+    pub padding: D77Padding,
 }
 
 impl Scale for SearchInputStyles {
@@ -94,18 +94,18 @@ impl Default for SearchInputStyles {
         SearchInputStyles {
             border_radius: 0.0,
             border_width: 0.0,
-            border_color: OnagreColor::TRANSPARENT,
-            background: OnagreColor::WHITE,
-            placeholder_color: OnagreColor::DEFAULT_TEXT,
-            value_color: OnagreColor::DEFAULT_TEXT,
-            selection_color: OnagreColor::DEFAULT_BORDER,
+            border_color: D77Color::TRANSPARENT,
+            background: D77Color::WHITE,
+            placeholder_color: D77Color::DEFAULT_TEXT,
+            value_color: D77Color::DEFAULT_TEXT,
+            selection_color: D77Color::DEFAULT_BORDER,
             text_width: Length::Fill,
             font_size: 14,
             width: Length::Fill,
             height: Length::Fill,
             align_x: Horizontal::Left,
             align_y: Vertical::Center,
-            padding: OnagrePadding {
+            padding: D77Padding {
                 top: 0,
                 right: 5,
                 bottom: 0,

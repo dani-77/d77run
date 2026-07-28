@@ -1,7 +1,7 @@
 use crate::app::style::rows::RowStyles;
 use crate::app::style::Scale;
-use crate::config::color::OnagreColor;
-use crate::config::padding::OnagrePadding;
+use crate::config::color::D77Color;
+use crate::config::padding::D77Padding;
 use iced::Length;
 use iced_core::border::Radius;
 use iced_core::{Background, Border};
@@ -12,14 +12,14 @@ pub mod scroller;
 #[derive(Debug, PartialEq, Clone)]
 pub struct RowContainerStyle {
     // Iced Container
-    pub color: OnagreColor,
-    pub background: OnagreColor,
-    pub border_color: OnagreColor,
+    pub color: D77Color,
+    pub background: D77Color,
+    pub border_color: D77Color,
     pub border_radius: f32,
     pub border_width: f32,
 
     // Layout
-    pub padding: OnagrePadding,
+    pub padding: D77Padding,
     pub width: Length,
     pub height: Length,
 
@@ -62,12 +62,12 @@ impl StyleSheet for &RowContainerStyle {
 impl Default for RowContainerStyle {
     fn default() -> Self {
         Self {
-            color: OnagreColor::DEFAULT_TEXT,
-            background: OnagreColor::DEFAULT_BACKGROUND,
-            border_color: OnagreColor::RED,
+            color: D77Color::DEFAULT_TEXT,
+            background: D77Color::DEFAULT_BACKGROUND,
+            border_color: D77Color::RED,
             border_radius: 0.0,
             border_width: 0.0,
-            padding: OnagrePadding {
+            padding: D77Padding {
                 top: 10,
                 right: 0,
                 bottom: 0,

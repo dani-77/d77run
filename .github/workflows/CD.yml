@@ -24,7 +24,7 @@ jobs:
           path: LICENSE
 
   build:
-    name: Build onagre ${{ matrix.os }}-${{ matrix.target }}
+    name: Build d77-launcher ${{ matrix.os }}-${{ matrix.target }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -58,12 +58,12 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.target }}
-          path: target/${{ matrix.target }}/release/onagre
+          path: target/${{ matrix.target }}/release/d77-launcher
 
 
   upload_to_release:
     needs: [ build, upload_license]
-    name: Publish onagre binaries
+    name: Publish d77-launcher binaries
     runs-on: ubuntu-latest
     if: ${{ github.ref_type == 'tag' }}
     steps:
@@ -74,43 +74,43 @@ jobs:
       - name: Copy artifacts to archive
         run: |
           mkdir x86_64-unknown-linux-musl
-          cp -r /home/runner/artifacts/x86_64-unknown-linux-musl/onagre x86_64-unknown-linux-musl/onagre
-          chmod +x -R  x86_64-unknown-linux-musl/onagre
+          cp -r /home/runner/artifacts/x86_64-unknown-linux-musl/d77-launcher x86_64-unknown-linux-musl/d77-launcher
+          chmod +x -R  x86_64-unknown-linux-musl/d77-launcher
           cp -r /home/runner/artifacts/LICENSE/LICENSE x86_64-unknown-linux-musl/
-          tar -czf onagre-x86_64-unknown-linux-musl.tar.gz x86_64-unknown-linux-musl/*
+          tar -czf d77-launcher-x86_64-unknown-linux-musl.tar.gz x86_64-unknown-linux-musl/*
           
           mkdir x86_64-unknown-linux-gnu
-          cp -r /home/runner/artifacts/x86_64-unknown-linux-gnu/onagre x86_64-unknown-linux-gnu/onagre
-          chmod +x -R  x86_64-unknown-linux-gnu/onagre
+          cp -r /home/runner/artifacts/x86_64-unknown-linux-gnu/d77-launcher x86_64-unknown-linux-gnu/d77-launcher
+          chmod +x -R  x86_64-unknown-linux-gnu/d77-launcher
           cp -r /home/runner/artifacts/LICENSE/LICENSE x86_64-unknown-linux-gnu/
-          tar -czf onagre-x86_64-unknown-linux-gnu.tar.gz x86_64-unknown-linux-gnu/*
+          tar -czf d77-launcher-x86_64-unknown-linux-gnu.tar.gz x86_64-unknown-linux-gnu/*
 
           mkdir armv7-unknown-linux-musleabihf
-          cp -r /home/runner/artifacts/armv7-unknown-linux-musleabihf/onagre armv7-unknown-linux-musleabihf/onagre
-          chmod +x -R  armv7-unknown-linux-musleabihf/onagre
+          cp -r /home/runner/artifacts/armv7-unknown-linux-musleabihf/d77-launcher armv7-unknown-linux-musleabihf/d77-launcher
+          chmod +x -R  armv7-unknown-linux-musleabihf/d77-launcher
           cp -r /home/runner/artifacts/LICENSE/LICENSE armv7-unknown-linux-musleabihf/
-          tar -czf onagre-armv7-unknown-linux-musleabihf.tar.gz armv7-unknown-linux-musleabihf/*
+          tar -czf d77-launcher-armv7-unknown-linux-musleabihf.tar.gz armv7-unknown-linux-musleabihf/*
 
       - uses: svenstaro/upload-release-action@v1-release
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: onagre-x86_64-unknown-linux-musl.tar.gz
+          file: d77-launcher-x86_64-unknown-linux-musl.tar.gz
           tag: ${{ github.ref }}
-          asset_name: onagre-${{ github.ref_name }}-x86_64-unknown-linux-musl.tar.gz
+          asset_name: d77-launcher-${{ github.ref_name }}-x86_64-unknown-linux-musl.tar.gz
 
       - uses: svenstaro/upload-release-action@v1-release
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: onagre-armv7-unknown-linux-musleabihf.tar.gz
+          file: d77-launcher-armv7-unknown-linux-musleabihf.tar.gz
           tag: ${{ github.ref_name }}
-          asset_name: onagre-${{ github.ref_name }}-armv7-unknown-linux-musleabihf.tar.gz
+          asset_name: d77-launcher-${{ github.ref_name }}-armv7-unknown-linux-musleabihf.tar.gz
 
       - uses: svenstaro/upload-release-action@v1-release
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: onagre-armv7-unknown-linux-musleabihf.tar.gz
+          file: d77-launcher-armv7-unknown-linux-musleabihf.tar.gz
           tag: ${{ github.ref_name }}
-          asset_name: onagre-${{ github.ref_name }}-armv7-unknown-linux-musleabihf.tar.gz
+          asset_name: d77-launcher-${{ github.ref_name }}-armv7-unknown-linux-musleabihf.tar.gz
 
   update_pages:
     name: Deploy pages
@@ -132,7 +132,6 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: crazy-max/ghaction-github-pages@v4
         with:
-          fqdn: docs.onagre.dev
           target_branch: gh-pages
           build_dir: docs/website/src/.vuepress/dist
         env:

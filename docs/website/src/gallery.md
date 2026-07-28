@@ -15,7 +15,7 @@ Don't hesitate to send a PR with your fancy theme, we would be happy to share it
 ::: details expand theme.scss
 
 ```scss
-.onagre {
+.d77-launcher {
   --exit-unfocused: false;
   height: 375px;
   width: 600px;
@@ -116,7 +116,7 @@ Don't hesitate to send a PR with your fancy theme, we would be happy to share it
 credit to [murz](https://github.com/Murzchnvok/rofi-collection)
 
 ```scss
-.onagre {
+.d77-launcher {
   --exit-unfocused: false;
   height: 250px;
   width: 400px;
@@ -184,7 +184,7 @@ credit to [murz](https://github.com/Murzchnvok/rofi-collection)
 ::: details expand theme.scss
 
 ```scss
-.onagre {
+.d77-launcher {
   --exit-unfocused: false;
   height: 250px;
   width: 400px;
@@ -256,7 +256,7 @@ credit to [murz](https://github.com/Murzchnvok/rofi-collection)
 ::: details expand theme.scss
 
 ```scss
-.onagre {
+.d77-launcher {
   background: #d6d6d6;
   color: #000000;
   --icon-theme: "Papirus";
@@ -349,7 +349,7 @@ credit to [murz](https://github.com/Murzchnvok/rofi-collection)
 ::: details expand theme.scss
 
 ```scss
-.onagre {
+.d77-launcher {
   background: #fdf6e3;
   color: #657b83;
   --icon-theme: "Papirus";

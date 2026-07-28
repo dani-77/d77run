@@ -1,0 +1,243 @@
+// Tokyo Night theme for onagre, aiming for a slim gmrun-like footprint:
+// a small single search bar by default, with a compact results list that
+// only takes up space once there's actually something to show
+// (`.rows { --height: shrink }` instead of the default `fill-portion 6`).
+//
+// Install:
+//   mkdir -p ~/.config/onagre
+//   cp tokyo-night-gmrun.scss ~/.config/onagre/theme.scss
+//
+// Only overrides are listed here — anything omitted falls back to
+// onagre's built-in default (run onagre with no theme file to see them).
+//
+// Adjust --font-family below to whatever monospace/Nerd Font you have
+// installed (e.g. the one used in fabric-d77 / quickshell-d77).
+
+.onagre {
+  height: 52px;
+  width: 640px;
+  --icon-theme: "Papirus";
+  --icon-size: 18px;
+  --font-family: "JetBrainsMono Nerd Font";
+  font-size: 15px;
+  background: #1a1b26;
+  color: #c0caf5;
+  border-color: #3b4261;
+  border-radius: 6%;
+  border-width: 1px;
+  padding: 6px;
+
+  .container {
+    background: #1a1b26;
+    color: #c0caf5;
+    border-color: #1a1b26;
+    border-radius: 0%;
+    border-width: 0px;
+    padding: 0;
+
+    .search {
+      background: #1a1b26;
+      color: #c0caf5;
+      border-color: #1a1b26;
+      border-radius: 0%;
+      border-width: 0px;
+      padding: 0;
+      --width: fill;
+      --height: fill-portion 1;
+      --align-x: left;
+      --align-y: center;
+
+      .plugin-hint {
+        background: #7aa2f7;
+        color: #1a1b26;
+        border-color: #7aa2f7;
+        border-radius: 4%;
+        border-width: 0px;
+        padding: 4px;
+        --width: shrink;
+        --height: fill;
+      }
+
+      .input {
+        background: #16161e;
+        color: #c0caf5;
+        border-color: #3b4261;
+        border-radius: 4%;
+        border-width: 1px;
+        padding: 8px;
+        --width: fill;
+        --height: fill;
+        --text-width: fill;
+        --selection-color: #7aa2f7A3;
+        --placeholder-color: #565f89;
+        --align-x: left;
+        --align-y: center;
+      }
+    }
+
+    // Compact results list: shrinks to nothing when there's no match,
+    // and only grows to fit actual entries instead of always reserving
+    // a big fixed area like the default theme does.
+    .rows {
+      background: #1a1b26;
+      color: #c0caf5;
+      border-color: #1a1b26;
+      border-radius: 0%;
+      border-width: 0px;
+      padding: 0;
+      --width: fill;
+      --height: shrink;
+
+      .row {
+        background: #16161e;
+        color: #c0caf5;
+        border-color: #16161e;
+        border-radius: 4%;
+        border-width: 0px;
+        padding: 8px;
+        --width: fill;
+        --height: shrink;
+
+        .title {
+          font-size: 14px;
+          background: #16161e;
+          color: #c0caf5;
+          border-color: #16161e;
+          border-radius: 0%;
+          border-width: 0px;
+          padding: 0;
+          --width: fill;
+          --height: shrink;
+          --align-x: left;
+          --align-y: center;
+        }
+
+        .description {
+          font-size: 12px;
+          background: #16161e;
+          color: #565f89;
+          border-color: #16161e;
+          border-radius: 0%;
+          border-width: 0px;
+          padding: 0;
+          --width: fill;
+          --height: shrink;
+          --align-x: left;
+          --align-y: center;
+        }
+
+        .icon {
+          --icon-size: 18px;
+          background: #16161e;
+          color: #c0caf5;
+          border-color: #16161e;
+          border-radius: 0%;
+          border-width: 0px;
+          padding: 0;
+          --width: shrink;
+          --height: shrink;
+          --align-x: center;
+          --align-y: center;
+        }
+
+        .category-icon {
+          --icon-size: 18px;
+          background: #16161e;
+          color: #c0caf5;
+          border-color: #16161e;
+          border-radius: 0%;
+          border-width: 0px;
+          padding: 0;
+          --width: shrink;
+          --height: shrink;
+          --align-x: center;
+          --align-y: center;
+        }
+      }
+
+      .row-selected {
+        background: #292e42;
+        color: #c0caf5;
+        border-color: #7aa2f7;
+        border-radius: 4%;
+        border-width: 1px;
+        padding: 8px;
+        --width: fill;
+        --height: shrink;
+
+        .title {
+          font-size: 14px;
+          background: #292e42;
+          color: #7aa2f7;
+          border-color: #292e42;
+          border-radius: 0%;
+          border-width: 0px;
+          padding: 0;
+          --width: fill;
+          --height: shrink;
+          --align-x: left;
+          --align-y: center;
+        }
+
+        .description {
+          font-size: 12px;
+          background: #292e42;
+          color: #9aa5ce;
+          border-color: #292e42;
+          border-radius: 0%;
+          border-width: 0px;
+          padding: 0;
+          --width: fill;
+          --height: shrink;
+          --align-x: left;
+          --align-y: center;
+        }
+
+        .icon {
+          --icon-size: 18px;
+          background: #292e42;
+          color: #7aa2f7;
+          border-color: #292e42;
+          border-radius: 0%;
+          border-width: 0px;
+          padding: 0;
+          --width: shrink;
+          --height: shrink;
+          --align-x: center;
+          --align-y: center;
+        }
+
+        .category-icon {
+          --icon-size: 18px;
+          background: #292e42;
+          color: #7aa2f7;
+          border-color: #292e42;
+          border-radius: 0%;
+          border-width: 0px;
+          padding: 0;
+          --width: shrink;
+          --height: shrink;
+          --align-x: center;
+          --align-y: center;
+        }
+      }
+    }
+
+    .scrollable {
+      background: #1a1b26;
+      border-color: #1a1b26;
+      border-radius: 0%;
+      border-width: 0px;
+      width: 2;
+      margin: 0;
+
+      .scroller {
+        color: #3b4261;
+        border-color: #3b4261;
+        border-radius: 4%;
+        border-width: 0px;
+        width: 2;
+      }
+    }
+  }
+}

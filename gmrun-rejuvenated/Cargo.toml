@@ -1,0 +1,16 @@
+[package]
+name = "gmrun-rejuvenated"
+version = "0.1.0"
+edition = "2021"
+description = "A from-scratch, GTK4 rejuvenation of gmrun: direct command exec + desktop-entry icons."
+license = "MIT"
+
+[[bin]]
+name = "gmrun-rejuvenated"
+path = "src/main.rs"
+
+[dependencies]
+gtk4 = "0.11"
+glib = "0.20"
+shell-words = "1"
+dirs = "5"

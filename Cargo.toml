@@ -1,0 +1,19 @@
+[package]
+name = "gmrun-rejuvenated"
+version = "0.1.0"
+edition = "2021"
+authors = ["dani-77"]
+readme = "README.md"
+license = "MIT"
+repository = "https://github.com/dani-77/d77run"
+description = "A from-scratch, GTK4 rejuvenation of gmrun: direct command exec + desktop-entry icons."
+
+[[bin]]
+name = "d77run"
+path = "src/main.rs"
+
+[dependencies]
+gtk4 = "0.11"
+glib = "0.20"
+shell-words = "1"
+dirs = "5"

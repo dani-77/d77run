@@ -309,6 +309,31 @@ impl Application for Onagre<'_> {
 }
 
 impl Onagre<'_> {
+    /// Height (px) reserved for just the search input row, with no
+    /// results showing. This is the window's resting height.
+    const BASE_HEIGHT: f32 = 52.0;
+    /// Approximate height (px) of a single result row. Tune this to
+    /// match your theme's actual row padding/font-size if the window
+    /// ends up leaving a gap or clipping the last row.
+    const ROW_HEIGHT: f32 = 40.0;
+    /// Never grow past this many visible rows, even if there are more
+    /// results than that — keeps the window from taking over the screen.
+    const MAX_VISIBLE_ROWS: usize = 8;
+
+    /// gmrun-style dynamic sizing: instead of always reserving a big
+    /// fixed area for results (onagre's default), grow/shrink the
+    /// window itself based on how many entries are actually being
+    /// shown right now. With zero results the window collapses back
+    /// down to just the search bar.
+    fn resize_to_content(&self) -> Command<Message> {
+        let visible_rows = self.current_entries_len().min(Self::MAX_VISIBLE_ROWS);
+        let height =
+            (Self::BASE_HEIGHT + visible_rows as f32 * Self::ROW_HEIGHT).min(THEME.size.1 as f32);
+        let width = THEME.size.0 as f32;
+
+        window::resize(window::Id::MAIN, Size::new(width, height))
+    }
+
     // Only call this if we are using entries from the database
     // in order to re-ask pop-launcher for the exact same entry
     fn current_entry(&self) -> Option<String> {
@@ -379,7 +404,10 @@ impl Onagre<'_> {
             }
         }
 
-        text_input::focus(INPUT_ID.clone())
+        Command::batch(vec![
+            text_input::focus(INPUT_ID.clone()),
+            self.resize_to_content(),
+        ])
     }
 
     fn run_command<P: AsRef<Path>>(&self, desktop_entry_path: P) -> Command<Message> {
@@ -482,6 +510,7 @@ impl Onagre<'_> {
                         return Command::none();
                     }
                     self.state.pop_search = search_updates;
+                    return self.resize_to_content();
                 }
                 Response::Fill(fill) => self.complete(fill),
             },

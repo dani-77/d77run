@@ -35,12 +35,17 @@ running anything.
 - [x] Filters the list live as you type, showing icon + name rows.
 - [x] Up/Down moves the selection in the results list (focus stays in the entry).
 - [x] Enter launches the selected row's `Exec=`, or falls back to raw shell exec.
-- [x] Tab completes the entry to the top match's name.
+- [x] Tab completes the entry to the top match's name, or — when nothing matches an
+      application — the word being typed against `$PATH` executables (single match completes
+      outright; multiple matches complete to their longest common prefix, shell-style). Verified
+      on a real X11 display (Xvfb + xdotool): `syst` → Tab → `system` (ambiguous:
+      `systemctl`/`systemd-*`), `xdoto` → Tab → `xdotool` (single match).
 - [x] Escape quits.
+- [x] Packaging: `PKGBUILD` for Arch, `xbps-src` template for Void (see [Packaging](#packaging)).
 - [ ] Not yet done: match ranking (currently plain substring match, no fuzzy/priority scoring),
-      history/frecency, `$PATH` executable completion for the raw-command path (gmrun originally
-      tab-completed binary names and file paths, not just app names), real Wayland session
-      testing (only X11/Xvfb has been exercised so far), packaging.
+      history/frecency, file-path completion for the raw-command path (gmrun originally also
+      completed file paths, not just binary names — only `$PATH` executables are covered so
+      far), real Wayland session testing (only X11/Xvfb has been exercised so far).
 
 ## Build & run
 
@@ -54,6 +59,22 @@ sudo mv target/release/d77run /usr/bin/d77run
 
 Requires GTK4 dev headers to build (`libgtk-4-dev` on Debian/Ubuntu, `gtk4-devel` on Fedora,
 `gtk4` on Arch).
+
+## Packaging
+
+### Arch
+
+A `PKGBUILD` is included, building straight from the working tree (no source tarball fetch):
+
+```bash
+makepkg -si
+```
+
+### Void Linux
+
+An `xbps-src` template lives under `void/srcpkgs/d77run/` — see
+[`void/README.md`](void/README.md) for how to drop it into a `void-packages` checkout and build
+with `xbps-src`.
 
 ## License
 

@@ -1,4 +1,5 @@
 mod desktop;
+mod path_complete;
 
 use std::cell::RefCell;
 use std::process::{exit, Command, Stdio};
@@ -55,6 +56,32 @@ fn run_desktop_app(app: &DesktopApp) {
         .spawn();
 }
 
+/// Tab-completes the last whitespace-separated word in `entry` against
+/// `$PATH` executables (gmrun's raw-command completion). No-ops if the
+/// word being typed looks like a path (contains `/`) or there's nothing
+/// useful to complete it to.
+fn complete_path_word(entry: &Entry, path_bins: &[String]) {
+    let full_text = entry.text();
+    let text: &str = &full_text;
+
+    let word_start = text
+        .char_indices()
+        .rev()
+        .find(|&(_, c)| c.is_whitespace())
+        .map(|(i, c)| i + c.len_utf8())
+        .unwrap_or(0);
+
+    let (head, word) = text.split_at(word_start);
+    if word.is_empty() || word.contains('/') {
+        return;
+    }
+
+    if let Some(completion) = path_complete::complete_prefix(path_bins, word) {
+        entry.set_text(&format!("{head}{completion}"));
+        entry.set_position(-1);
+    }
+}
+
 fn lookup_icon(icon_theme: &IconTheme, icon_name: Option<&str>) -> Image {
     let name = icon_name
         .filter(|n| !n.is_empty())
@@ -101,6 +128,7 @@ fn build_row(icon_theme: &IconTheme, app: &DesktopApp) -> ListBoxRow {
 fn build_ui(app: &Application) {
     let all_apps = Rc::new(desktop::scan_applications());
     let filtered: Rc<RefCell<Vec<DesktopApp>>> = Rc::new(RefCell::new(Vec::new()));
+    let path_bins = Rc::new(path_complete::scan_path_executables());
 
     let display = Display::default().expect("no display available");
     let icon_theme = IconTheme::for_display(&display);
@@ -190,10 +218,14 @@ fn build_ui(app: &Application) {
     }
 
     // Tab: complete the entry text to the top match's name, gmrun-style.
+    // If there's no matching application, fall back to completing the
+    // word being typed against `$PATH` executables instead (gmrun
+    // originally tab-completed binary names too, not just app names).
     // This has to run in the Capture phase on the *window*, otherwise GTK's
     // own focus-navigation swallows Tab before our handler ever sees it.
     {
         let filtered = filtered.clone();
+        let path_bins = path_bins.clone();
         let key_controller = EventControllerKey::new();
         key_controller.set_propagation_phase(gtk4::PropagationPhase::Capture);
         let entry_for_tab = entry.clone();
@@ -207,6 +239,8 @@ fn build_ui(app: &Application) {
                 if let Some(name) = top_name {
                     entry_for_tab.set_text(&name);
                     entry_for_tab.set_position(-1);
+                } else {
+                    complete_path_word(&entry_for_tab, &path_bins);
                 }
                 return Propagation::Stop;
             }

@@ -407,6 +407,24 @@ impl Onagre<'_> {
         exit(0);
     }
 
+    /// gmrun-style fallback: run whatever the user typed as a raw shell
+    /// command (`sh -c "<input>"`), detached from onagre. Used when neither
+    /// a desktop entry nor a plugin matched the input, so things like
+    /// `dunst` or `udiskie -a` still launch instantly, exactly like they
+    /// would in gmrun, even though they aren't registered .desktop apps.
+    fn run_raw_command(&self, raw: &str) -> Command<Message> {
+        let raw = raw.trim();
+        debug!("No match for input, running as raw shell command: {raw}");
+
+        std::process::Command::new("sh")
+            .arg("-c")
+            .arg(raw)
+            .spawn()
+            .expect("Failed to spawn raw command");
+
+        exit(0);
+    }
+
     fn handle_input(&mut self, key_code: Key) -> Command<Message> {
         match key_code {
             Key::Named(Named::ArrowUp) => {
@@ -539,6 +557,17 @@ impl Onagre<'_> {
                 let _ = self.run_command(path);
             }
             _ => {
+                let is_desktop_entry_mode =
+                    matches!(self.state.get_active_mode(), ActiveMode::DesktopEntry);
+                let raw_input = self.state.get_input();
+                let nothing_matched = self.state.pop_search.is_empty();
+
+                if is_desktop_entry_mode && nothing_matched && !raw_input.trim().is_empty() {
+                    // gmrun-style fallback: no desktop entry and no plugin claimed this
+                    // input, so treat it as a raw shell command and run it directly.
+                    return self.run_raw_command(&raw_input);
+                }
+
                 if self.selected().is_none() {
                     self.pop_request(Request::Activate(0))
                         .expect("Unable to send pop-launcher request")

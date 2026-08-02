@@ -1,7 +1,7 @@
 # Template file for 'd77run'
 # See void/README.md in the d77run repo for how to build this with xbps-src.
 pkgname=d77run
-version=0.1.0
+version=0.2.0
 revision=1
 build_style=cargo
 hostmakedepends="pkg-config"
@@ -14,16 +14,12 @@ homepage="https://github.com/dani-77/d77run"
 
 # Pinned snapshot of the repo (no upstream release tags yet). Bump _commit
 # and recompute checksum (`./xbps-src pkg d77run` prints the real one on a
-# mismatch) whenever you want to package a newer revision - in particular,
-# bump it once this PATH-completion + packaging change lands on main.
-_commit=9307d7ddc4d84bfcaf24e1d83d5e210815cf2995
+# mismatch) whenever you want to package a newer revision.
+_commit=5d83e7484964fa88700db27459b3958be1f934e8
 distfiles="https://github.com/dani-77/d77run/archive/${_commit}.tar.gz"
 wrksrc="d77run-${_commit}"
 
-# PLACEHOLDER: this session had no way to run xbps-src to compute the real
-# hash. Run `./xbps-src pkg d77run` once - it fetches the tarball, fails on
-# the checksum mismatch, and prints the actual sha256 to paste in below.
-checksum=0000000000000000000000000000000000000000000000000000000000000000
+checksum=2fd62fce73c70876147d597879e34ccb420f0d4b1f1264217ef187c00feb738d
 
 post_install() {
 	vlicense LICENSE

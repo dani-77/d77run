@@ -1,4 +1,5 @@
 mod desktop;
+mod history;
 mod path_complete;
 
 use std::cell::RefCell;
@@ -130,6 +131,13 @@ fn build_ui(app: &Application) {
     let filtered: Rc<RefCell<Vec<DesktopApp>>> = Rc::new(RefCell::new(Vec::new()));
     let path_bins = Rc::new(path_complete::scan_path_executables());
 
+    // Persistent command history (gmrun-style): oldest first on disk, walked
+    // most-recent-first via `history_pos`. `suppress_history_reset` lets our
+    // own history-driven `set_text` calls skip the "user is typing, cancel
+    // history browsing" reset that `connect_changed` otherwise does.
+    let history_entries: Rc<RefCell<Vec<String>>> = Rc::new(RefCell::new(history::load()));
+    let history_pos: Rc<RefCell<Option<usize>>> = Rc::new(RefCell::new(None));
+
     let display = Display::default().expect("no display available");
     let icon_theme = IconTheme::for_display(&display);
 
@@ -166,7 +174,17 @@ fn build_ui(app: &Application) {
         let all_apps = all_apps.clone();
         let results = results.clone();
         let icon_theme = icon_theme.clone();
+        let history_pos = history_pos.clone();
         entry.connect_changed(move |entry| {
+            // Any text change cancels history browsing by default. The
+            // history-nav code path below restores the position it wants
+            // right after calling set_text, overriding this — which also
+            // covers the case where set_text's new value is identical to
+            // what's already there and GTK skips emitting `changed`
+            // entirely (e.g. cycling between two history entries with the
+            // same text): nothing here runs, but nothing needed to.
+            *history_pos.borrow_mut() = None;
+
             let query = entry.text().to_lowercase();
 
             while let Some(child) = results.first_child() {
@@ -202,6 +220,8 @@ fn build_ui(app: &Application) {
         let results = results.clone();
         let window = window.clone();
         entry.connect_activate(move |entry| {
+            history::append(&entry.text());
+
             let selected_index = results.selected_row().map(|row| row.index());
 
             if let Some(index) = selected_index {
@@ -230,6 +250,8 @@ fn build_ui(app: &Application) {
         key_controller.set_propagation_phase(gtk4::PropagationPhase::Capture);
         let entry_for_tab = entry.clone();
         let results_for_nav = results.clone();
+        let history_entries = history_entries.clone();
+        let history_pos = history_pos.clone();
         key_controller.connect_key_pressed(move |_, keyval, _keycode, _state| {
             if keyval == gtk4::gdk::Key::Tab {
                 // Clone the name and drop the borrow *before* calling
@@ -239,6 +261,12 @@ fn build_ui(app: &Application) {
                 if let Some(name) = top_name {
                     entry_for_tab.set_text(&name);
                     entry_for_tab.set_position(-1);
+                    // Tab picks the top match, so select it in the results
+                    // list too — Enter should fire immediately, no need to
+                    // press Down first.
+                    if let Some(row) = results_for_nav.row_at_index(0) {
+                        results_for_nav.select_row(Some(&row));
+                    }
                 } else {
                     complete_path_word(&entry_for_tab, &path_bins);
                 }
@@ -247,10 +275,18 @@ fn build_ui(app: &Application) {
 
             // Keep keyboard focus in the entry (so typing keeps working)
             // but move the result list's selection with the arrow keys,
-            // the way most launchers behave.
+            // the way most launchers behave. When there's no result list
+            // showing, Up/Down instead walk persistent command history
+            // (gmrun-style). Once history browsing has started, it keeps
+            // going even if the history text we land on happens to also
+            // match an app name (e.g. a Tab-completed app name saved from a
+            // previous run) and repopulates the results list — otherwise
+            // Up/Down would silently switch to list nav mid-cycle and the
+            // entry text would stop changing.
             if keyval == gtk4::gdk::Key::Down || keyval == gtk4::gdk::Key::Up {
+                let browsing_history = history_pos.borrow().is_some();
                 let len = filtered.borrow().len() as i32;
-                if len > 0 {
+                if len > 0 && !browsing_history {
                     let current = results_for_nav.selected_row().map(|r| r.index());
                     let next = match (keyval == gtk4::gdk::Key::Down, current) {
                         (true, Some(i)) => (i + 1).min(len - 1),
@@ -260,6 +296,43 @@ fn build_ui(app: &Application) {
                     };
                     if let Some(row) = results_for_nav.row_at_index(next) {
                         results_for_nav.select_row(Some(&row));
+                    }
+                } else {
+                    let hist = history_entries.borrow();
+                    if !hist.is_empty() {
+                        let current_pos = *history_pos.borrow();
+                        let next = if keyval == gtk4::gdk::Key::Up {
+                            // Walk toward older entries, wrapping back around
+                            // to the most recent one instead of sticking at
+                            // the oldest — getting stuck there defeats the
+                            // point of cycling through history.
+                            Some(match current_pos {
+                                None => 0,
+                                Some(i) if i + 1 >= hist.len() => 0,
+                                Some(i) => i + 1,
+                            })
+                        } else {
+                            match current_pos {
+                                None | Some(0) => None,
+                                Some(i) => Some(i - 1),
+                            }
+                        };
+
+                        match next {
+                            Some(i) => {
+                                entry_for_tab.set_text(&hist[hist.len() - 1 - i]);
+                                entry_for_tab.set_position(-1);
+                            }
+                            None => entry_for_tab.set_text(""),
+                        }
+                        // Set *after* set_text: `connect_changed` unconditionally
+                        // resets this to `None` on every text change it sees, so
+                        // writing here overrides that back to what we actually
+                        // want — and still lands correctly even when set_text is
+                        // a no-op because the new text equals the old (GTK then
+                        // skips `changed` entirely, e.g. cycling between two
+                        // history entries with identical text).
+                        *history_pos.borrow_mut() = next;
                     }
                 }
                 return Propagation::Stop;

@@ -41,11 +41,16 @@ running anything.
       on a real X11 display (Xvfb + xdotool): `syst` → Tab → `system` (ambiguous:
       `systemctl`/`systemd-*`), `xdoto` → Tab → `xdotool` (single match).
 - [x] Escape quits.
+- [x] Tab also selects the top application match in the results list, so Enter fires
+      immediately — no need to press Down first.
+- [x] Persistent command history, gmrun-style: every launched command/app is appended to
+      `$XDG_DATA_HOME/d77run/history`. Up/Down walk it (most recent first) whenever the results
+      list isn't showing any application matches.
 - [x] Packaging: `PKGBUILD` for Arch, `xbps-src` template for Void (see [Packaging](#packaging)).
 - [ ] Not yet done: match ranking (currently plain substring match, no fuzzy/priority scoring),
-      history/frecency, file-path completion for the raw-command path (gmrun originally also
-      completed file paths, not just binary names — only `$PATH` executables are covered so
-      far), real Wayland session testing (only X11/Xvfb has been exercised so far).
+      frecency-weighted history/ranking, file-path completion for the raw-command path (gmrun
+      originally also completed file paths, not just binary names — only `$PATH` executables are
+      covered so far), real Wayland session testing (only X11/Xvfb has been exercised so far).
 
 ## Build & run
 

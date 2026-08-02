@@ -8,7 +8,7 @@
 # network fetch of the source itself).
 
 pkgname=d77run
-pkgver=0.1.0
+pkgver=0.2.0
 pkgrel=1
 pkgdesc="Minimal GTK4 run-dialog launcher (a rejuvenation of gmrun), with .desktop icon rendering"
 arch=('x86_64' 'aarch64')

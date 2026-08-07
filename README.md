@@ -68,14 +68,18 @@ Arch) and a Rust toolchain ([rustup.rs](https://rustup.rs) if you don't have one
 ```sh
 git clone https://github.com/dani-77/d77run.git
 cd d77run
-cargo build --release
-sudo install -Dm755 target/release/d77run /usr/bin/d77run
+make
+sudo make install PREFIX=/usr
+```
+
+To uninstall:
+
+```sh
+sudo make uninstall PREFIX=/usr
 ```
 </details>
 
-Either package install also drops in a `.desktop` entry and an icon (`assets/d77run.desktop`,
-`assets/d77run-icon.svg`), so d77run shows up correctly in app grids/launchers that list installed
-apps — even though you'll mostly launch it via keybind instead.
+Any of the installation methods above (Arch package, Void package, or `make install`) automatically installs the binary, the `.desktop` entry (`assets/d77run.desktop`), and all icon sizes (`assets/d77run-icon.*`) into system icon themes, updating the system icon cache.
 
 ## Using it
 

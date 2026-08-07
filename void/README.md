@@ -36,11 +36,8 @@ config.
 ## Notes
 
 - The template pins a specific commit of *this* repo (`_commit`, since
-  there are no release tags yet). Bump it and recompute the checksum the
-  same way whenever you want to package a newer revision.
-- Its `checksum` is a placeholder — this template was authored without
-  access to `xbps-src` to compute the real sha256. Run `./xbps-src pkg
-  d77run` once; it fetches the tarball, fails on the checksum mismatch,
-  and prints the real sha256 to paste in.
+  there are no release tags yet). Bump it and recompute the checksum
+  whenever you want to package a newer revision, e.g.:
+  `curl -sL https://github.com/dani-77/d77run/archive/<commit>.tar.gz | sha256sum`.
 - `gtk4-devel`/`gtk4` and `pkg-config` are already packaged in
   void-packages, so `xbps-src`/`xbps-install` pull them in automatically.

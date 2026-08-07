@@ -31,4 +31,15 @@ package() {
     cd "$startdir"
     install -Dm755 target/release/d77run "$pkgdir/usr/bin/d77run"
     install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+    install -Dm644 assets/d77run.desktop "$pkgdir/usr/share/applications/d77run.desktop"
+    install -Dm644 assets/d77run-icon.svg \
+        "$pkgdir/usr/share/icons/hicolor/scalable/apps/d77run.svg"
+    install -Dm644 assets/d77run-icon-16.png \
+        "$pkgdir/usr/share/icons/hicolor/16x16/apps/d77run.png"
+    install -Dm644 assets/d77run-icon-32.png \
+        "$pkgdir/usr/share/icons/hicolor/32x32/apps/d77run.png"
+    install -Dm644 assets/d77run-icon-192.png \
+        "$pkgdir/usr/share/icons/hicolor/192x192/apps/d77run.png"
+    install -Dm644 assets/d77run-icon-512.png \
+        "$pkgdir/usr/share/icons/hicolor/512x512/apps/d77run.png"
 }

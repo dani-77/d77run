@@ -1,87 +1,105 @@
-# gmrun-rejuvenated
+<p align="center"><img src="assets/d77run-icon-192.png" width="96" alt="d77run logo"></p>
 
-A from-scratch, minimal GTK4 launcher inspired by [gmrun](http://sourceforge.net/projects/gmrun),
-built as the `d77run` binary.
+<h1 align="center">d77run</h1>
 
-The original gmrun is a small, fast "run dialog": type a command, hit Enter, it runs. It hasn't
-seen much upkeep in years, still leans on GTK2, and its `.desktop`-file icon handling never
-really worked. This project keeps gmrun's core idea — small window, direct command execution,
-minimal ceremony — while rebuilding it clean:
+<p align="center">A small, fast "run dialog" — type a command or an app name, hit Enter, it runs.</p>
 
-- **Modern GTK.** Written against GTK4 (`gtk4-rs`) instead of gmrun's GTK2, so it builds and
-  themes correctly on current systems.
-- **Icons for `/usr/share/applications` entries.** Resolves `Icon=` from `.desktop` files through
-  GTK4's own icon-theme lookup (`IconTheme::lookup_icon`), which follows the icon theme spec's
-  fallback chain properly — this is the part that didn't work in the original gmrun.
-- **Direct command execution kept.** Pressing Enter with nothing selected from the results list
-  still runs whatever you typed as a raw shell command (`sh -c "<input>"`), unchanged from gmrun's
-  core behaviour.
+---
 
-> The previous project that used to live in this repository — **d77-launcher**, a Rust/iced fork
-> of [onagre](https://github.com/oknozor/onagre) — has moved to its own repository,
-> [dani-77/d77-launcher](https://github.com/dani-77/d77-launcher).
+d77run is a from-scratch, modern rejuvenation of [gmrun](http://sourceforge.net/projects/gmrun):
+the same idea — a tiny window, type to filter, Enter to launch, nothing else in your way — rebuilt
+on GTK4 instead of gmrun's aging GTK2, with app icons that actually resolve correctly.
 
-## Status
+It's meant to be bound to a keyboard shortcut in your window manager/compositor (`Mod+R`, or
+whatever you like), the same way you'd use `dmenu`, `rofi`, or `wofi` — not launched from a menu.
 
-MVP, functional and manually verified on a real X11 display (Xvfb + xdotool): typing filters the
-list with correctly-resolved icons, Up/Down moves a visible selection, Enter on a selected row
-spawns that app's `Exec=`, Enter with nothing selected runs the raw command, Escape quits without
-running anything.
+## Features
 
-- [x] Scans `$XDG_DATA_HOME/applications`, `$XDG_DATA_DIRS/applications` (or the
-      `/usr/local/share` + `/usr/share` default), recursively, parsing `.desktop` files
-      (skips `NoDisplay`/`Hidden`, ignores `[Desktop Action ...]` sub-sections, strips
-      field codes like `%f`/`%U` from `Exec=`).
-- [x] Filters the list live as you type, showing icon + name rows.
-- [x] Up/Down moves the selection in the results list (focus stays in the entry).
-- [x] Enter launches the selected row's `Exec=`, or falls back to raw shell exec.
-- [x] Tab completes the entry to the top match's name, or — when nothing matches an
-      application — the word being typed against `$PATH` executables (single match completes
-      outright; multiple matches complete to their longest common prefix, shell-style). Verified
-      on a real X11 display (Xvfb + xdotool): `syst` → Tab → `system` (ambiguous:
-      `systemctl`/`systemd-*`), `xdoto` → Tab → `xdotool` (single match).
-- [x] Escape quits.
-- [x] Tab also selects the top application match in the results list, so Enter fires
-      immediately — no need to press Down first.
-- [x] Persistent command history, gmrun-style: every launched command/app is appended to
-      `$XDG_DATA_HOME/d77run/history`. Up/Down walk it (most recent first) whenever the results
-      list isn't showing any application matches.
-- [x] Packaging: `PKGBUILD` for Arch, `xbps-src` template for Void (see [Packaging](#packaging)).
-- [ ] Not yet done: match ranking (currently plain substring match, no fuzzy/priority scoring),
-      frecency-weighted history/ranking, file-path completion for the raw-command path (gmrun
-      originally also completed file paths, not just binary names — only `$PATH` executables are
-      covered so far), real Wayland session testing (only X11/Xvfb has been exercised so far).
+- **Type to filter** — searches your installed apps (`.desktop` entries) live as you type, showing
+  each one's real icon next to its name.
+- **Tab to complete** — completes to the top matching app name, or, if nothing matches an app,
+  against `$PATH` executables (shell-style: a single match completes outright, multiple matches
+  complete to their longest common prefix).
+- **Enter to launch** — runs the selected app's real command, or, with nothing selected, whatever
+  you typed as a raw shell command (`sh -c "..."`) — so it doubles as a quick command runner, not
+  just an app launcher.
+- **Up/Down** — moves the selection, or, once the list isn't showing app matches, walks your
+  command history (most recent first).
+- **Escape** — quits without running anything.
+- **Real icon resolution.** Every result shows the actual icon its `.desktop` entry points to,
+  resolved through GTK4's own icon-theme lookup — the part of the original gmrun that never
+  really worked.
+- **Persistent history** — every command/app you launch is remembered
+  (`$XDG_DATA_HOME/d77run/history`), oldest to newest, for the Up/Down recall above.
 
-## Build & run
+## Installing
 
-```bash
-cargo build --release
-cargo test
-cargo run
-# or, once built:
-sudo mv target/release/d77run /usr/bin/d77run
-```
+<details>
+<summary><b>Arch Linux</b></summary>
 
-Requires GTK4 dev headers to build (`libgtk-4-dev` on Debian/Ubuntu, `gtk4-devel` on Fedora,
-`gtk4` on Arch).
-
-## Packaging
-
-### Arch
-
-A `PKGBUILD` is included, building straight from the working tree (no source tarball fetch):
-
-```bash
+```sh
+git clone https://github.com/dani-77/d77run.git
+cd d77run
 makepkg -si
 ```
+</details>
 
-### Void Linux
+<details>
+<summary><b>Void Linux</b></summary>
 
-An `xbps-src` template lives under `void/srcpkgs/d77run/` — see
-[`void/README.md`](void/README.md) for how to drop it into a `void-packages` checkout and build
-with `xbps-src`.
+```sh
+git clone --depth 1 https://github.com/void-linux/void-packages.git
+cd void-packages
+./xbps-src binary-bootstrap
+cp -r /path/to/d77run/void/srcpkgs/d77run srcpkgs/
+./xbps-src pkg d77run
+sudo xbps-install --repository=hostdir/binpkgs -R d77run
+```
+
+See [`void/README.md`](void/README.md) for more detail on this path.
+</details>
+
+<details>
+<summary><b>Build from source (any distro)</b></summary>
+
+Needs GTK4 development headers (`libgtk-4-dev` on Debian/Ubuntu, `gtk4-devel` on Fedora, `gtk4` on
+Arch) and a Rust toolchain ([rustup.rs](https://rustup.rs) if you don't have one).
+
+```sh
+git clone https://github.com/dani-77/d77run.git
+cd d77run
+cargo build --release
+sudo install -Dm755 target/release/d77run /usr/bin/d77run
+```
+</details>
+
+Either package install also drops in a `.desktop` entry and an icon (`assets/d77run.desktop`,
+`assets/d77run-icon.svg`), so d77run shows up correctly in app grids/launchers that list installed
+apps — even though you'll mostly launch it via keybind instead.
+
+## Using it
+
+Bind it to a key in your window manager/compositor config, the same way you would `rofi` or
+`dmenu`. A couple of examples:
+
+```lua
+-- spitfire (~/.config/spitfire/config.lua)
+spitfire.bind("Mod1", "r", function() spitfire.spawn("d77run") end)
+```
+
+```
+# most other WMs: bind Mod+R (or whatever key) to the command
+d77run
+```
+
+Once it's open: type to filter, `Tab` to complete, `↑`/`↓` to move through matches or history,
+`Enter` to launch, `Esc` to quit.
 
 ## License
 
-MIT, see [LICENSE](LICENSE). This is original code, not derived from gmrun's GPL-licensed sources
-or from onagre.
+MIT — see [LICENSE](LICENSE). Original code, not derived from gmrun's GPL-licensed sources or from
+[onagre](https://github.com/oknozor/onagre) (the project that used to live in this repository, now
+at [dani-77/d77-launcher](https://github.com/dani-77/d77-launcher)).
+
+Looking to build or contribute to d77run itself, rather than just use it? See
+[`doc/README.md`](doc/README.md) for the status checklist and technical details.

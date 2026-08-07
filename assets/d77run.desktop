@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=d77run
+GenericName=Application Launcher
+Comment=Minimal GTK4 run-dialog launcher (a rejuvenation of gmrun)
+Exec=d77run
+Icon=d77run
+Terminal=false
+Categories=Utility;

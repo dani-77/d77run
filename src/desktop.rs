@@ -129,7 +129,7 @@ pub fn scan_applications() -> Vec<DesktopApp> {
 
     let mut apps: Vec<DesktopApp> = files.iter().filter_map(|f| parse_desktop_file(f)).collect();
 
-    apps.sort_by(|a, b| a.name.to_lowercase().cmp(&b.name.to_lowercase()));
+    apps.sort_by_key(|a| a.name.to_lowercase());
     apps.dedup_by(|a, b| a.name == b.name && a.exec == b.exec);
 
     apps

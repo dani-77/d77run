@@ -1,0 +1,93 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  rust:
+    name: Rust (build, test, fmt, clippy)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install GTK4 dev headers
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgtk-4-dev
+
+      - name: Install stable toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+
+      - uses: Swatinem/rust-cache@v2
+
+      - name: cargo build
+        run: cargo build --locked
+
+      - name: cargo test
+        run: cargo test --locked
+
+      - name: cargo fmt --check
+        run: cargo fmt --all -- --check
+
+      - name: cargo clippy
+        run: cargo clippy --all-targets -- -D warnings
+
+  make:
+    name: Makefile (build, test, install, uninstall)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install GTK4 dev headers
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgtk-4-dev
+
+      - name: Install stable toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+
+      - name: make build
+        run: make build
+
+      - name: make test
+        run: make test
+
+      # Installs into a throwaway DESTDIR rather than the real /usr, so this
+      # runner never touches system paths - mirrors what the PKGBUILD/xbps
+      # packaging (and a real `sudo make install PREFIX=/usr`) actually lay
+      # down, without needing root or a real icon theme/cache on the runner.
+      - name: make install (staging DESTDIR)
+        run: make install DESTDIR="${{ github.workspace }}/staging" PREFIX=/usr
+
+      - name: verify installed files
+        run: |
+          set -eu
+          staging="${{ github.workspace }}/staging/usr"
+          test -x "$staging/bin/d77run"
+          test -f "$staging/share/applications/d77run.desktop"
+          test -f "$staging/share/icons/hicolor/scalable/apps/d77run.svg"
+          test -f "$staging/share/icons/hicolor/16x16/apps/d77run.png"
+          test -f "$staging/share/icons/hicolor/32x32/apps/d77run.png"
+          test -f "$staging/share/icons/hicolor/192x192/apps/d77run.png"
+          test -f "$staging/share/icons/hicolor/512x512/apps/d77run.png"
+          test -f "$staging/share/licenses/d77run/LICENSE"
+
+      - name: make uninstall removes everything it installed
+        run: |
+          set -eu
+          make uninstall DESTDIR="${{ github.workspace }}/staging" PREFIX=/usr
+          test ! -e "${{ github.workspace }}/staging/usr/bin/d77run"
+          test ! -e "${{ github.workspace }}/staging/usr/share/applications/d77run.desktop"
+          test ! -e "${{ github.workspace }}/staging/usr/share/licenses/d77run"

@@ -35,9 +35,9 @@ config.
 
 ## Notes
 
-- The template pins a specific commit of *this* repo (`_commit`, since
-  there are no release tags yet). Bump it and recompute the checksum
-  whenever you want to package a newer revision, e.g.:
-  `curl -sL https://github.com/dani-77/d77run/archive/<commit>.tar.gz | sha256sum`.
+- The template fetches the tagged release tarball (`refs/tags/v$version`).
+  Bump `version` and recompute the checksum whenever you want to package a
+  newer release, e.g.:
+  `curl -sL https://github.com/dani-77/d77run/archive/refs/tags/v<version>.tar.gz | sha256sum`.
 - `gtk4-devel`/`gtk4` and `pkg-config` are already packaged in
   void-packages, so `xbps-src`/`xbps-install` pull them in automatically.

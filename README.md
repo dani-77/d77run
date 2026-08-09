@@ -16,21 +16,27 @@ whatever you like), the same way you'd use `dmenu`, `rofi`, or `wofi` — not la
 ## Features
 
 - **Type to filter** — searches your installed apps (`.desktop` entries) live as you type, showing
-  each one's real icon next to its name.
+  each one's real icon next to its name, best matches first (exact match, then name-prefix match,
+  then word-boundary match, then any other substring match).
 - **Tab to complete** — completes to the top matching app name, or, if nothing matches an app,
-  against `$PATH` executables (shell-style: a single match completes outright, multiple matches
-  complete to their longest common prefix).
+  against `$PATH` executables and filesystem paths (absolute or `~/...`) instead. Single-match
+  completions fill in outright; ambiguous ones fill in the longest common prefix *and* list every
+  actual candidate below the entry (e.g. `xdg-us` → Tab lists `xdg-user-dir` and
+  `xdg-user-dirs-update`), navigable with Up/Down — picking one only completes the text, it doesn't
+  run anything by itself.
 - **Enter to launch** — runs the selected app's real command, or, with nothing selected, whatever
   you typed as a raw shell command (`sh -c "..."`) — so it doubles as a quick command runner, not
   just an app launcher.
-- **Up/Down** — moves the selection, or, once the list isn't showing app matches, walks your
-  command history (most recent first).
+- **Up/Down** — moves the selection, or, once the list isn't showing matches, walks your command
+  history — ordered by frecency (a frequency + recency blend, à la Firefox's URL bar) rather than
+  strict most-recent-first, so a frequently-used command doesn't get buried by a single more recent
+  one-off.
 - **Escape** — quits without running anything.
 - **Real icon resolution.** Every result shows the actual icon its `.desktop` entry points to,
   resolved through GTK4's own icon-theme lookup — the part of the original gmrun that never
   really worked.
 - **Persistent history** — every command/app you launch is remembered
-  (`$XDG_DATA_HOME/d77run/history`), oldest to newest, for the Up/Down recall above.
+  (`$XDG_DATA_HOME/d77run/history`), for the frecency-ranked Up/Down recall above.
 
 ## Installing
 

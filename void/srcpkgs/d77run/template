@@ -1,7 +1,7 @@
 # Template file for 'd77run'
 # See void/README.md in the d77run repo for how to build this with xbps-src.
 pkgname=d77run
-version=0.2.0
+version=0.3.0
 revision=1
 build_style=cargo
 hostmakedepends="pkg-config"
@@ -12,14 +12,14 @@ maintainer="Daniel Azevedo <daniazevedo77@gmail.com>"
 license="MIT"
 homepage="https://github.com/dani-77/d77run"
 
-# Pinned snapshot of the repo (no upstream release tags yet). Bump _commit
-# and recompute checksum (`./xbps-src pkg d77run` prints the real one on a
-# mismatch) whenever you want to package a newer revision.
-_commit=9cc88fa47f90599f5eb1aab2e7a89b0f6bf975e2
-distfiles="https://github.com/dani-77/d77run/archive/${_commit}.tar.gz"
-wrksrc="d77run-${_commit}"
+# Tagged release tarball (v0.3.0 is the first tagged release — earlier
+# packaged versions pinned to a raw commit instead). Bump `version` and
+# recompute checksum (`./xbps-src pkg d77run` prints the real one on a
+# mismatch) whenever you package a newer release.
+distfiles="https://github.com/dani-77/d77run/archive/refs/tags/v${version}.tar.gz"
+wrksrc="d77run-${version}"
 
-checksum=2644ccb55200f353107724d13e4c8cc815b4594b2ce7272207c5d3898d73f430
+checksum=0000000000000000000000000000000000000000000000000000000000000000
 
 post_install() {
 	vlicense LICENSE

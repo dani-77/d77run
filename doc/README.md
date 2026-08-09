@@ -27,34 +27,36 @@ minimal ceremony — while rebuilding it clean:
 
 ## Status
 
-MVP, functional and manually verified on a real X11 display (Xvfb + xdotool): typing filters the
-list with correctly-resolved icons, Up/Down moves a visible selection, Enter on a selected row
-spawns that app's `Exec=`, Enter with nothing selected runs the raw command, Escape quits without
-running anything.
+**v0.3.0.** Functional and manually verified on both a real X11 display (Xvfb + xdotool) and a
+real Wayland session.
 
 - [x] Scans `$XDG_DATA_HOME/applications`, `$XDG_DATA_DIRS/applications` (or the
       `/usr/local/share` + `/usr/share` default), recursively, parsing `.desktop` files
       (skips `NoDisplay`/`Hidden`, ignores `[Desktop Action ...]` sub-sections, strips
       field codes like `%f`/`%U` from `Exec=`).
-- [x] Filters the list live as you type, showing icon + name rows.
-- [x] Up/Down moves the selection in the results list (focus stays in the entry).
-- [x] Enter launches the selected row's `Exec=`, or falls back to raw shell exec.
-- [x] Tab completes the entry to the top match's name, or — when nothing matches an
-      application — the word being typed against `$PATH` executables (single match completes
-      outright; multiple matches complete to their longest common prefix, shell-style). Verified
-      on a real X11 display (Xvfb + xdotool): `syst` → Tab → `system` (ambiguous:
-      `systemctl`/`systemd-*`), `xdoto` → Tab → `xdotool` (single match).
+- [x] Filters the list live as you type, showing icon + name rows, ranked best match first: exact
+      match, then name-prefix match, then word-boundary match, then any other substring match —
+      ties keep their existing alphabetical order.
+- [x] Up/Down moves the selection in the results list (focus stays in the entry), or — once the
+      list isn't showing any matches — walks persistent command history instead, ordered by
+      frecency (a frequency+recency blend, à la Firefox's URL bar) rather than strict
+      most-recent-first, so a frequently-used command doesn't get buried by a single more recent
+      one-off. Every launched command/app is appended to `$XDG_DATA_HOME/d77run/history`.
+- [x] Enter launches the selected row's `Exec=`, or falls back to raw shell exec (`sh -c
+      "<input>"`) when nothing's selected.
+- [x] Tab completes the entry: to the top application match's name (also selecting it in the
+      results list, so Enter fires immediately); or, if nothing matches an application, against
+      `$PATH` executables and filesystem paths (absolute `/...` or home-relative `~/...` — there's
+      no meaningful "current directory" to resolve a bare relative path against from inside the
+      launcher) instead, directories completing with a trailing `/` so completion can continue
+      into them. A single match completes outright; an ambiguous one fills in the longest common
+      prefix *and* lists every actual candidate below the entry (e.g. `xdg-us` → Tab lists
+      `xdg-user-dir` and `xdg-user-dirs-update`), navigable with Up/Down — picking one only
+      completes the text, it doesn't run anything by itself.
 - [x] Escape quits.
-- [x] Tab also selects the top application match in the results list, so Enter fires
-      immediately — no need to press Down first.
-- [x] Persistent command history, gmrun-style: every launched command/app is appended to
-      `$XDG_DATA_HOME/d77run/history`. Up/Down walk it (most recent first) whenever the results
-      list isn't showing any application matches.
 - [x] Packaging: `PKGBUILD` for Arch, `xbps-src` template for Void (see [Packaging](#packaging)).
-- [ ] Not yet done: match ranking (currently plain substring match, no fuzzy/priority scoring),
-      frecency-weighted history/ranking, file-path completion for the raw-command path (gmrun
-      originally also completed file paths, not just binary names — only `$PATH` executables are
-      covered so far), real Wayland session testing (only X11/Xvfb has been exercised so far).
+- [ ] Not yet done: match ranking is still plain scoring tiers, not a proper fuzzy matcher (e.g.
+      no credit for scattered-but-ordered characters like `ffx` → "Firefox").
 
 ## Build & run
 

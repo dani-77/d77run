@@ -19,7 +19,7 @@ homepage="https://github.com/dani-77/d77run"
 distfiles="https://github.com/dani-77/d77run/archive/refs/tags/v${version}.tar.gz"
 wrksrc="d77run-${version}"
 
-checksum=0000000000000000000000000000000000000000000000000000000000000000
+checksum=48fa3ab623e03e02f9af0b3e026e0959352aaa279a74872237a5df3001346203
 
 post_install() {
 	vlicense LICENSE

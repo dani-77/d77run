@@ -21,10 +21,6 @@ minimal ceremony — while rebuilding it clean:
   still runs whatever you typed as a raw shell command (`sh -c "<input>"`), unchanged from gmrun's
   core behaviour.
 
-> The previous project that used to live in this repository — **d77-launcher**, a Rust/iced fork
-> of [onagre](https://github.com/oknozor/onagre) — has moved to its own repository,
-> [dani-77/d77-launcher](https://github.com/dani-77/d77-launcher).
-
 ## Status
 
 **v0.3.0.** Functional and manually verified on both a real X11 display (Xvfb + xdotool) and a
@@ -90,4 +86,4 @@ with `xbps-src`.
 ## License
 
 MIT, see [LICENSE](../LICENSE). This is original code, not derived from gmrun's GPL-licensed
-sources or from onagre.
+sources.

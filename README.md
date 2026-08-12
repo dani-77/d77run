@@ -107,9 +107,7 @@ Once it's open: type to filter, `Tab` to complete, `↑`/`↓` to move through m
 
 ## License
 
-MIT — see [LICENSE](LICENSE). Original code, not derived from gmrun's GPL-licensed sources or from
-[onagre](https://github.com/oknozor/onagre) (the project that used to live in this repository, now
-at [dani-77/d77-launcher](https://github.com/dani-77/d77-launcher)).
+MIT — see [LICENSE](LICENSE). Original code, not derived from gmrun's GPL-licensed sources.
 
 Looking to build or contribute to d77run itself, rather than just use it? See
 [`doc/README.md`](doc/README.md) for the status checklist and technical details.

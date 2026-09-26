@@ -43,9 +43,17 @@ whatever you like), the same way you'd use `dmenu`, `rofi`, or `wofi` — not la
 <details>
 <summary><b>Arch Linux</b></summary>
 
+Available in the AUR as [`d77run`](https://aur.archlinux.org/packages/d77run):
+
+```sh
+yay -S d77run
+```
+
+Or build it with the same `PKGBUILD` from this repo:
+
 ```sh
 git clone https://github.com/dani-77/d77run.git
-cd d77run
+cd d77run/packaging/arch
 makepkg -si
 ```
 </details>

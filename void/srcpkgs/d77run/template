@@ -1,8 +1,7 @@
 # Template file for 'd77run'
-# See void/README.md in the d77run repo for how to build this with xbps-src.
 pkgname=d77run
 version=0.3.0
-revision=1
+revision=2
 build_style=cargo
 hostmakedepends="pkg-config"
 makedepends="gtk4-devel"
@@ -11,14 +10,9 @@ short_desc="Minimal GTK4 run-dialog launcher (a rejuvenation of gmrun), with .de
 maintainer="Daniel Azevedo <daniazevedo77@gmail.com>"
 license="MIT"
 homepage="https://github.com/dani-77/d77run"
+repository=d77
 
-# Tagged release tarball (v0.3.0 is the first tagged release — earlier
-# packaged versions pinned to a raw commit instead). Bump `version` and
-# recompute checksum (`./xbps-src pkg d77run` prints the real one on a
-# mismatch) whenever you package a newer release.
 distfiles="https://github.com/dani-77/d77run/archive/refs/tags/v${version}.tar.gz"
-wrksrc="d77run-${version}"
-
 checksum=48fa3ab623e03e02f9af0b3e026e0959352aaa279a74872237a5df3001346203
 
 post_install() {

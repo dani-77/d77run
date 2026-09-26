@@ -71,15 +71,18 @@ Requires GTK4 dev headers to build (`libgtk-4-dev` on Debian/Ubuntu, `gtk4-devel
 
 ### Arch
 
-A `PKGBUILD` is included, building straight from the working tree (no source tarball fetch):
+`packaging/arch/PKGBUILD` is a copy of the one published in the AUR as
+[`d77run`](https://aur.archlinux.org/packages/d77run). It builds the tagged release tarball:
 
 ```bash
+cd packaging/arch
 makepkg -si
 ```
 
 ### Void Linux
 
-An `xbps-src` template lives under `void/srcpkgs/d77run/` — see
+An `xbps-src` template lives under `void/srcpkgs/d77run/` (a copy of the one in
+[`d77void/srcpkgs-d77`](https://github.com/d77void/srcpkgs-d77)) — see
 [`void/README.md`](../void/README.md) for how to drop it into a `void-packages` checkout and build
 with `xbps-src`.
 
